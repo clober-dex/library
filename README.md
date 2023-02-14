@@ -40,13 +40,16 @@ open coverage/index.html
 npm run forge:test
 ```
 
-## Visulization
+## Visualization
 Visual aid for OctopusHeap.
 ```shell
 cd utils/visualization
 pip install -r requirements.txt 
 python octopus_heap.py
 ```
+
+## Audits
+Audited by [Spearbit](https://github.com/spearbit) from January to February 2023. All security risks are fixed. Full report is available [here](audits/SpearbitDAO2023Feb.pdf).
 
 ## Licensing
 
