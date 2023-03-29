@@ -6,6 +6,7 @@ pragma solidity ^0.8.0;
 library Create1 {
     function computeAddress(address origin, uint64 nonce) internal pure returns (address) {
         bytes memory data;
+
         if (nonce == 0x00) {
             data = abi.encodePacked(bytes1(0xd6), bytes1(0x94), origin, bytes1(0x80));
         } else if (nonce <= 0x7f) {
