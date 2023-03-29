@@ -3,9 +3,13 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - '**/*.sol'
   push:
     branches:
       - main
+    paths:
+      - '**/*.sol'
 
 jobs:
   foundry-tests:
