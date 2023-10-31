@@ -16,7 +16,7 @@ library MinBitMap {
     }
 
     function has(Core storage core, uint24 value) internal view returns (bool) {
-        (uint256 wordIndex, uint8 bitIndex) = _split(value);
+        (uint256 wordIndex, uint256 bitIndex) = _split(value);
         uint256 mask = 1 << bitIndex;
         return core.bitmapMapping[wordIndex] & mask == mask;
     }
@@ -25,14 +25,14 @@ library MinBitMap {
         return core.bitmap == 0;
     }
 
-    function _split(uint24 value) private pure returns (uint256 wordIndex, uint8 bitIndex) {
+    function _split(uint24 value) private pure returns (uint256 wordIndex, uint256 bitIndex) {
         assembly {
             bitIndex := value
             wordIndex := shr(8, value)
         }
     }
 
-    function _root(Core storage core) private view returns (uint256 wordIndex, uint8 bitIndex) {
+    function _root(Core storage core) private view returns (uint256 wordIndex, uint256 bitIndex) {
         wordIndex = core.bitmap.leastSignificantBit();
         wordIndex = (wordIndex << 8) | (core.bitmapMapping[~wordIndex].leastSignificantBit());
         uint256 word = core.bitmapMapping[wordIndex];
@@ -42,12 +42,12 @@ library MinBitMap {
     function root(Core storage core) internal view returns (uint24) {
         if (isEmpty(core)) revert MinBitMapError(_EMPTY_ERROR);
 
-        (uint256 wordIndex, uint8 bitIndex) = _root(core);
-        return (uint24(wordIndex) << 8) | bitIndex;
+        (uint256 wordIndex, uint256 bitIndex) = _root(core);
+        return uint24((wordIndex << 8) | bitIndex);
     }
 
     function push(Core storage core, uint24 value) internal {
-        (uint256 wordIndex, uint8 bitIndex) = _split(value);
+        (uint256 wordIndex, uint256 bitIndex) = _split(value);
         uint256 mask = 1 << bitIndex;
         uint256 word = core.bitmapMapping[wordIndex];
         if (word & mask > 0) {
@@ -65,7 +65,7 @@ library MinBitMap {
     }
 
     function pop(Core storage core) internal {
-        (uint256 wordIndex, uint8 bitIndex) = _root(core);
+        (uint256 wordIndex, uint256 bitIndex) = _root(core);
         uint256 mask = 1 << bitIndex;
         uint256 word = core.bitmapMapping[wordIndex];
 
