@@ -49,29 +49,32 @@ library MinBitMap {
     function push(Core storage core, uint24 value) internal {
         (uint256 wordIndex, uint8 bitIndex) = _split(value);
         uint256 mask = 1 << bitIndex;
-
         uint256 word = core.bitmapMapping[wordIndex];
         if (word & mask > 0) {
             revert MinBitMapError(_ALREADY_EXISTS_ERROR);
         }
+
         core.bitmapMapping[wordIndex] = word | mask;
         if (word == 0) {
-            core.bitmap = core.bitmap | (1 << (wordIndex >> 8));
+            wordIndex = wordIndex >> 8;
+            core.bitmap = core.bitmap | (1 << wordIndex);
             mask = 1 << (wordIndex & 0xff);
-            wordIndex = ~(wordIndex >> 8);
+            wordIndex = ~wordIndex;
             core.bitmapMapping[wordIndex] = core.bitmapMapping[wordIndex] | mask;
         }
     }
 
     function pop(Core storage core) internal {
-        (uint256 rootWordIndex, uint8 rootBitIndex) = _root(core);
-        uint256 mask = 1 << rootBitIndex;
-        uint256 word = core.bitmapMapping[rootWordIndex];
-        core.bitmapMapping[rootWordIndex] = word & (~mask);
+        (uint256 wordIndex, uint8 bitIndex) = _root(core);
+        uint256 mask = 1 << bitIndex;
+        uint256 word = core.bitmapMapping[wordIndex];
+
+        core.bitmapMapping[wordIndex] = word & (~mask);
         if (word == mask) {
-            mask = 1 << (rootWordIndex & 0xff);
-            uint256 wordIndex = ~(rootWordIndex >> 8);
+            mask = 1 << (wordIndex & 0xff);
+            wordIndex = ~(wordIndex >> 8);
             word = core.bitmapMapping[wordIndex];
+
             core.bitmapMapping[wordIndex] = word & (~mask);
             if (mask == word) {
                 mask = 1 << (~wordIndex);
