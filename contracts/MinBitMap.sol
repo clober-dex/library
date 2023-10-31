@@ -74,7 +74,7 @@ library MinBitMap {
             word = core.bitmapMapping[wordIndex];
             core.bitmapMapping[wordIndex] = word & (~mask);
             if (mask == word) {
-                mask = 1 << (rootWordIndex >> 16);
+                mask = 1 << (~wordIndex);
                 core.bitmap = core.bitmap & (~mask);
             }
         }
