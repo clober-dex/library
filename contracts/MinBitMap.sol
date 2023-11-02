@@ -25,7 +25,7 @@ library MinBitMap {
         return core.bitmap == 0;
     }
 
-    function _split(uint24 value) private pure returns (uint256 wordIndex, uint256 bitIndex) {
+    function _split(uint24 value) private pure returns (uint256 wordIndex, uint8 bitIndex) {
         assembly {
             bitIndex := value
             wordIndex := shr(8, value)
@@ -56,9 +56,9 @@ library MinBitMap {
 
         core.bitmapMapping[wordIndex] = word | mask;
         if (word == 0) {
+            mask = 1 << (wordIndex & 0xff);
             wordIndex = wordIndex >> 8;
             core.bitmap = core.bitmap | (1 << wordIndex);
-            mask = 1 << (wordIndex & 0xff);
             wordIndex = ~wordIndex;
             core.bitmapMapping[wordIndex] = core.bitmapMapping[wordIndex] | mask;
         }
