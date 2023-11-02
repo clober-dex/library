@@ -24,25 +24,25 @@ contract MinBitMapTest is Test {
             if (testWrapper.has(number)) continue;
             if (number < _min) _min = number;
 
-            assertFalse(testWrapper.has(number));
+            assertFalse(testWrapper.has(number), "BEFORE_PUSH");
             testWrapper.push(number);
-            assertTrue(testWrapper.has(number));
-            assertEq(testWrapper.root(), _min);
+            assertTrue(testWrapper.has(number), "AFTER_PUSH");
+            assertEq(testWrapper.root(), _min, "ASSERT_MIN");
         }
     }
 
     function testPop(uint24[] calldata numbers) public {
         vm.assume(1 <= numbers.length && numbers.length <= _MAX_HEAP_SIZE);
-        assertTrue(testWrapper.isEmpty());
+        assertTrue(testWrapper.isEmpty(), "HAS_TO_BE_EMPTY");
         _push(numbers);
-        assertFalse(testWrapper.isEmpty());
+        assertFalse(testWrapper.isEmpty(), "HAS_TO_BE_OCCUPIED");
         while (!testWrapper.isEmpty()) {
             _min = testWrapper.root();
-            assertTrue(testWrapper.has(_min));
+            assertTrue(testWrapper.has(_min), "BITMAP_HAS_ROOT");
             testWrapper.pop();
-            assertFalse(testWrapper.has(_min));
+            assertFalse(testWrapper.has(_min), "ROOT_HAS_BEEN_POPPED");
             if (testWrapper.isEmpty()) break;
-            assertGt(testWrapper.root(), _min);
+            assertGt(testWrapper.root(), _min, "ROOT_HAS_TO_BE_MIN");
         }
     }
 }
