@@ -45,4 +45,18 @@ contract MinBitMapTest is Test {
             assertGt(testWrapper.root(), _min, "ROOT_HAS_TO_BE_MIN");
         }
     }
+
+    function testPushExistNumber(uint24 number) public {
+        testWrapper.push(number);
+        vm.expectRevert(abi.encodeWithSelector(MinBitMap.MinBitMapError.selector, MinBitMap.ALREADY_EXISTS_ERROR));
+        testWrapper.push(number);
+    }
+
+    function testPopWhenEmpty() public {
+        vm.expectRevert(abi.encodeWithSelector(MinBitMap.MinBitMapError.selector, MinBitMap.EMPTY_ERROR));
+        testWrapper.pop();
+
+        vm.expectRevert(abi.encodeWithSelector(MinBitMap.MinBitMapError.selector, MinBitMap.EMPTY_ERROR));
+        testWrapper.root();
+    }
 }
