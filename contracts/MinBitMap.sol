@@ -9,8 +9,8 @@ library MinBitMap {
     using SignificantBit for uint256;
 
     error MinBitMapError(uint256 errorCode);
-    uint256 private constant _EMPTY_ERROR = 0;
-    uint256 private constant _ALREADY_EXISTS_ERROR = 1;
+    uint256 public constant EMPTY_ERROR = 0;
+    uint256 public constant ALREADY_EXISTS_ERROR = 1;
 
     struct Core {
         uint256 bitmap;
@@ -42,7 +42,7 @@ library MinBitMap {
     }
 
     function root(Core storage core) internal view returns (uint24) {
-        if (isEmpty(core)) revert MinBitMapError(_EMPTY_ERROR);
+        if (isEmpty(core)) revert MinBitMapError(EMPTY_ERROR);
 
         (uint256 wordIndex, uint256 bitIndex) = _root(core);
         return uint24((wordIndex << 8) | bitIndex);
@@ -53,7 +53,7 @@ library MinBitMap {
         uint256 mask = 1 << bitIndex;
         uint256 word = core.bitmapMapping[wordIndex];
         if (word & mask > 0) {
-            revert MinBitMapError(_ALREADY_EXISTS_ERROR);
+            revert MinBitMapError(ALREADY_EXISTS_ERROR);
         }
 
         core.bitmapMapping[wordIndex] = word | mask;
@@ -67,6 +67,8 @@ library MinBitMap {
     }
 
     function pop(Core storage core) internal {
+        if (isEmpty(core)) revert MinBitMapError(EMPTY_ERROR);
+
         (uint256 wordIndex, uint256 bitIndex) = _root(core);
         uint256 mask = 1 << bitIndex;
         uint256 word = core.bitmapMapping[wordIndex];
