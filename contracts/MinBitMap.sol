@@ -86,4 +86,25 @@ library MinBitMap {
             }
         }
     }
+
+    function getNextMinValue(Core storage core, uint24 value) internal view returns (uint24) {
+        (uint256 wordIndex, uint256 bitIndex) = _split(value);
+        uint256 word = ((type(uint256).max >> bitIndex) << bitIndex) & core.bitmapMapping[wordIndex];
+        if (word == 0) {
+            uint256 head = wordIndex >> 8;
+            uint256 middle = wordIndex & 0xff;
+            word = ((type(uint256).max >> middle) << middle) & core.bitmapMapping[~head];
+            if (word == 0) {
+                word = ((type(uint256).max >> head) << head) & core.bitmap;
+                if (word == 0) {
+                    revert MinBitMapError(EMPTY_ERROR);
+                }
+                head = word.leastSignificantBit();
+            }
+            middle = word.leastSignificantBit();
+            wordIndex = (head << 8) | middle;
+        }
+        bitIndex = word.leastSignificantBit();
+        return uint24((wordIndex << 8) | bitIndex);
+    }
 }

@@ -30,4 +30,8 @@ contract MinBitMapWrapper is CloberMinBitMap {
     function root() external view returns (uint24) {
         return _heap.root();
     }
+
+    function getNextMinValue(uint24 value) external view returns (uint24) {
+        return _heap.getNextMinValue(value);
+    }
 }
