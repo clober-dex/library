@@ -9,7 +9,7 @@ pragma solidity ^0.8.0;
  * Each value is stored by having the quotient divided by 2^8 added to the heap,
  * and the remainder expressed as a flag on a bitmap.
  */
-interface CloberMinBitMap {
+interface CloberHeap {
     /**
      * @notice Checks if the specified value is present in the heap.
      * @param value The value to check for.

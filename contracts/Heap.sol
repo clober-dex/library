@@ -5,10 +5,10 @@ pragma solidity ^0.8.0;
 
 import "./SignificantBit.sol";
 
-library MinBitMap {
+library Heap {
     using SignificantBit for uint256;
 
-    error MinBitMapError(uint256 errorCode);
+    error HeapError(uint256 errorCode);
     uint256 public constant EMPTY_ERROR = 0;
     uint256 public constant ALREADY_EXISTS_ERROR = 1;
 
@@ -53,7 +53,7 @@ library MinBitMap {
         uint256 mask = 1 << bitIndex;
         uint256 word = core.bitmapMapping[wordIndex];
         if (word & mask > 0) {
-            revert MinBitMapError(ALREADY_EXISTS_ERROR);
+            revert HeapError(ALREADY_EXISTS_ERROR);
         }
 
         core.bitmapMapping[wordIndex] = word | mask;
@@ -67,7 +67,7 @@ library MinBitMap {
     }
 
     function pop(Core storage core) internal {
-        if (isEmpty(core)) revert MinBitMapError(EMPTY_ERROR);
+        if (isEmpty(core)) revert HeapError(EMPTY_ERROR);
 
         (uint256 wordIndex, uint256 bitIndex) = _root(core);
         uint256 mask = 1 << bitIndex;
@@ -97,7 +97,7 @@ library MinBitMap {
             if (word == 0) {
                 word = ((type(uint256).max >> head) << head) & core.bitmap;
                 if (word == 0) {
-                    revert MinBitMapError(EMPTY_ERROR);
+                    revert HeapError(EMPTY_ERROR);
                 }
                 head = word.leastSignificantBit();
             }

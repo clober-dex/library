@@ -4,17 +4,17 @@
 pragma solidity ^0.8.0;
 
 import "forge-std/Test.sol";
-import "../../contracts/mocks/MinBitMapWrapper.sol";
+import "../../contracts/mocks/HeapWrapper.sol";
 
-contract MinBitMapTest is Test {
+contract HeapTest is Test {
     uint16 private constant _MAX_HEAP_SIZE = type(uint16).max;
 
     uint24 private _min;
 
-    MinBitMapWrapper testWrapper;
+    HeapWrapper testWrapper;
 
     function setUp() public {
-        testWrapper = new MinBitMapWrapper();
+        testWrapper = new HeapWrapper();
         _min = type(uint24).max;
     }
 
@@ -48,15 +48,15 @@ contract MinBitMapTest is Test {
 
     function testPushExistNumber(uint24 number) public {
         testWrapper.push(number);
-        vm.expectRevert(abi.encodeWithSelector(MinBitMap.MinBitMapError.selector, MinBitMap.ALREADY_EXISTS_ERROR));
+        vm.expectRevert(abi.encodeWithSelector(Heap.HeapError.selector, Heap.ALREADY_EXISTS_ERROR));
         testWrapper.push(number);
     }
 
     function testPopWhenEmpty() public {
-        vm.expectRevert(abi.encodeWithSelector(MinBitMap.MinBitMapError.selector, MinBitMap.EMPTY_ERROR));
+        vm.expectRevert(abi.encodeWithSelector(Heap.HeapError.selector, Heap.EMPTY_ERROR));
         testWrapper.pop();
 
-        vm.expectRevert(abi.encodeWithSelector(MinBitMap.MinBitMapError.selector, MinBitMap.EMPTY_ERROR));
+        vm.expectRevert(abi.encodeWithSelector(Heap.HeapError.selector, Heap.EMPTY_ERROR));
         testWrapper.root();
     }
 }

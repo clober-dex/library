@@ -3,11 +3,11 @@
 
 pragma solidity ^0.8.0;
 
-import "../MinBitMap.sol";
+import "../Heap.sol";
 import "../interfaces/CloberMinBitMap.sol";
 
-contract MinBitMapWrapper is CloberMinBitMap {
-    using MinBitMap for MinBitMap.Core;
+contract HeapWrapper is CloberHeap {
+    using Heap for Heap.Core;
 
     MinBitMap.Core private _heap;
 
