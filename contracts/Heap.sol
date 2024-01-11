@@ -11,100 +11,95 @@ library Heap {
     error HeapError(uint256 errorCode);
     uint256 public constant EMPTY_ERROR = 0;
     uint256 public constant ALREADY_EXISTS_ERROR = 1;
+    uint256 public constant B0_BITMAP_KEY = uint256(keccak256("heap"));
 
-    struct Core {
-        uint256 bitmap;
-        mapping(uint256 => uint256) bitmapMapping;
+    function has(mapping(uint256 => uint256) storage heap, uint24 value) internal view returns (bool) {
+        (uint256 b0b1, uint256 b2) = _split(value);
+        uint256 mask = 1 << b2;
+        return heap[b0b1] & mask == mask;
     }
 
-    function has(Core storage core, uint24 value) internal view returns (bool) {
-        (uint256 wordIndex, uint256 bitIndex) = _split(value);
-        uint256 mask = 1 << bitIndex;
-        return core.bitmapMapping[wordIndex] & mask == mask;
+    function isEmpty(mapping(uint256 => uint256) storage heap) internal view returns (bool) {
+        return heap[B0_BITMAP_KEY] == 0;
     }
 
-    function isEmpty(Core storage core) internal view returns (bool) {
-        return core.bitmap == 0;
-    }
-
-    function _split(uint24 value) private pure returns (uint256 wordIndex, uint8 bitIndex) {
+    function _split(uint24 value) private pure returns (uint256 b0b1, uint8 b2) {
         assembly {
-            bitIndex := value
-            wordIndex := shr(8, value)
+            b2 := value
+            b0b1 := shr(8, value)
         }
     }
 
-    function _root(Core storage core) private view returns (uint256 wordIndex, uint256 bitIndex) {
-        wordIndex = core.bitmap.leastSignificantBit();
-        wordIndex = (wordIndex << 8) | (core.bitmapMapping[~wordIndex].leastSignificantBit());
-        uint256 word = core.bitmapMapping[wordIndex];
-        bitIndex = word.leastSignificantBit();
+    function _root(mapping(uint256 => uint256) storage heap) private view returns (uint256 b0b1, uint256 b2) {
+        uint256 b0 = heap[B0_BITMAP_KEY].leastSignificantBit();
+        b0b1 = (b0 << 8) | (heap[~b0].leastSignificantBit());
+        b2 = heap[b0b1].leastSignificantBit();
     }
 
-    function root(Core storage core) internal view returns (uint24) {
-        if (isEmpty(core)) revert MinBitMapError(EMPTY_ERROR);
+    function root(mapping(uint256 => uint256) storage heap) internal view returns (uint24) {
+        if (isEmpty(heap)) revert HeapError(EMPTY_ERROR);
 
-        (uint256 wordIndex, uint256 bitIndex) = _root(core);
-        return uint24((wordIndex << 8) | bitIndex);
+        (uint256 b0b1, uint256 b2) = _root(heap);
+        return uint24((b0b1 << 8) | b2);
     }
 
-    function push(Core storage core, uint24 value) internal {
-        (uint256 wordIndex, uint256 bitIndex) = _split(value);
-        uint256 mask = 1 << bitIndex;
-        uint256 word = core.bitmapMapping[wordIndex];
-        if (word & mask > 0) {
+    function push(mapping(uint256 => uint256) storage heap, uint24 value) internal {
+        (uint256 b0b1, uint256 b2) = _split(value);
+        uint256 mask = 1 << b2;
+        uint256 b2Bitmap = heap[b0b1];
+        if (b2Bitmap & mask > 0) {
             revert HeapError(ALREADY_EXISTS_ERROR);
         }
 
-        core.bitmapMapping[wordIndex] = word | mask;
-        if (word == 0) {
-            mask = 1 << (wordIndex & 0xff);
-            wordIndex = wordIndex >> 8;
-            core.bitmap = core.bitmap | (1 << wordIndex);
-            wordIndex = ~wordIndex;
-            core.bitmapMapping[wordIndex] = core.bitmapMapping[wordIndex] | mask;
+        heap[b0b1] = b2Bitmap | mask;
+        if (b2Bitmap == 0) {
+            mask = 1 << (b0b1 & 0xff);
+            uint256 b0 = b0b1 >> 8;
+            heap[B0_BITMAP_KEY] = heap[B0_BITMAP_KEY] | (1 << b0);
+            b0 = ~b0; // TODO add comment
+            heap[b0] = heap[b0] | mask;
         }
     }
 
-    function pop(Core storage core) internal {
-        if (isEmpty(core)) revert HeapError(EMPTY_ERROR);
+    function pop(mapping(uint256 => uint256) storage heap) internal {
+        if (isEmpty(heap)) revert HeapError(EMPTY_ERROR);
 
-        (uint256 wordIndex, uint256 bitIndex) = _root(core);
-        uint256 mask = 1 << bitIndex;
-        uint256 word = core.bitmapMapping[wordIndex];
+        (uint256 b0b1, uint256 b2) = _root(heap);
+        uint256 mask = 1 << b2;
+        uint256 b2Bitmap = heap[b0b1];
 
-        core.bitmapMapping[wordIndex] = word & (~mask);
-        if (word == mask) {
-            mask = 1 << (wordIndex & 0xff);
-            wordIndex = ~(wordIndex >> 8);
-            word = core.bitmapMapping[wordIndex];
+        heap[b0b1] = b2Bitmap & (~mask);
+        if (b2Bitmap == mask) {
+            mask = 1 << (b0b1 & 0xff);
+            uint256 b1BitmapKey = ~(b0b1 >> 8);
+            uint256 b1Bitmap = heap[b1BitmapKey];
 
-            core.bitmapMapping[wordIndex] = word & (~mask);
-            if (mask == word) {
-                mask = 1 << (~wordIndex);
-                core.bitmap = core.bitmap & (~mask);
+            heap[b1BitmapKey] = b1Bitmap & (~mask);
+            if (mask == b1Bitmap) {
+                mask = 1 << (~b1BitmapKey);
+                heap[B0_BITMAP_KEY] = heap[B0_BITMAP_KEY] & (~mask);
             }
         }
     }
 
-    function getNextMinValue(Core storage core, uint24 value) internal view returns (uint24) {
-        (uint256 wordIndex, uint256 bitIndex) = _split(value);
-        uint256 word = ((type(uint256).max >> bitIndex) << bitIndex) & core.bitmapMapping[wordIndex];
-        if (word == 0) {
-            uint256 head = wordIndex >> 8;
-            uint256 middle = wordIndex & 0xff;
-            word = ((type(uint256).max >> middle) << middle) & core.bitmapMapping[~head];
-            if (word == 0) {
-                word = ((type(uint256).max >> head) << head) & core.bitmap;
-                if (word == 0) {
+    function minGreaterThan(mapping(uint256 => uint256) storage heap, uint24 value) internal view returns (uint24) {
+        (uint256 b0b1, uint256 b2) = _split(value);
+        uint256 b2Bitmap = ((type(uint256).max >> b2) << b2) & heap[b0b1];
+        if (b2Bitmap == 0) {
+            uint256 b0 = b0b1 >> 8;
+            uint256 b1 = b0b1 & 0xff;
+            uint256 b1Bitmap = ((type(uint256).max >> b1) << b1) & heap[~b0];
+            if (b1Bitmap == 0) {
+                uint256 b0Bitmap = ((type(uint256).max >> b0) << b0) & heap[B0_BITMAP_KEY];
+                if (b0Bitmap == 0) {
                     revert HeapError(EMPTY_ERROR);
                 }
-                head = word.leastSignificantBit();
+                b0 = b0Bitmap.leastSignificantBit();
             }
-            middle = word.leastSignificantBit();
-            wordIndex = (head << 8) | middle;
+            b1 = b1Bitmap.leastSignificantBit();
+            b0b1 = (b0 << 8) | b1;
         }
-        bitIndex = word.leastSignificantBit();
-        return uint24((wordIndex << 8) | bitIndex);
+        b2 = b0b1.leastSignificantBit();
+        return uint24((b0b1 << 8) | b2);
     }
 }

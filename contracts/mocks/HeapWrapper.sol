@@ -7,9 +7,9 @@ import "../Heap.sol";
 import "../interfaces/CloberMinBitMap.sol";
 
 contract HeapWrapper is CloberHeap {
-    using Heap for Heap.Core;
+    using Heap for mapping(uint256 => uint256);
 
-    MinBitMap.Core private _heap;
+    mapping(uint256 => uint256) private _heap;
 
     function has(uint24 value) external view returns (bool) {
         return _heap.has(value);
@@ -32,6 +32,6 @@ contract HeapWrapper is CloberHeap {
     }
 
     function getNextMinValue(uint24 value) external view returns (uint24) {
-        return _heap.getNextMinValue(value);
+        return _heap.minGreaterThan(value);
     }
 }
