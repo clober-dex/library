@@ -12,6 +12,7 @@ library Heap {
     uint256 public constant EMPTY_ERROR = 0;
     uint256 public constant ALREADY_EXISTS_ERROR = 1;
     uint256 public constant B0_BITMAP_KEY = uint256(keccak256("heap"));
+    uint256 public constant MAX_UINT_256_MINUS_1 = 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe;
 
     function has(mapping(uint256 => uint256) storage heap, uint24 value) internal view returns (bool) {
         (uint256 b0b1, uint256 b2) = _split(value);
@@ -84,22 +85,22 @@ library Heap {
 
     function minGreaterThan(mapping(uint256 => uint256) storage heap, uint24 value) internal view returns (uint24) {
         (uint256 b0b1, uint256 b2) = _split(value);
-        uint256 b2Bitmap = ((type(uint256).max >> b2) << b2) & heap[b0b1];
+        uint256 b2Bitmap = (MAX_UINT_256_MINUS_1 << b2) & heap[b0b1];
         if (b2Bitmap == 0) {
             uint256 b0 = b0b1 >> 8;
-            uint256 b1 = b0b1 & 0xff;
-            uint256 b1Bitmap = ((type(uint256).max >> b1) << b1) & heap[~b0];
+            uint256 b1Bitmap = (MAX_UINT_256_MINUS_1 << (b0b1 & 0xff)) & heap[~b0];
             if (b1Bitmap == 0) {
-                uint256 b0Bitmap = ((type(uint256).max >> b0) << b0) & heap[B0_BITMAP_KEY];
+                uint256 b0Bitmap = (MAX_UINT_256_MINUS_1 << b0) & heap[B0_BITMAP_KEY];
                 if (b0Bitmap == 0) {
                     revert HeapError(EMPTY_ERROR);
                 }
                 b0 = b0Bitmap.leastSignificantBit();
+                b1Bitmap = heap[~b0];
             }
-            b1 = b1Bitmap.leastSignificantBit();
-            b0b1 = (b0 << 8) | b1;
+            b0b1 = (b0 << 8) | b1Bitmap.leastSignificantBit();
+            b2Bitmap = heap[b0b1];
         }
-        b2 = b0b1.leastSignificantBit();
+        b2 = b2Bitmap.leastSignificantBit();
         return uint24((b0b1 << 8) | b2);
     }
 }

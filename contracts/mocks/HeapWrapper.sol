@@ -4,7 +4,7 @@
 pragma solidity ^0.8.0;
 
 import "../Heap.sol";
-import "../interfaces/CloberMinBitMap.sol";
+import "../interfaces/CloberHeap.sol";
 
 contract HeapWrapper is CloberHeap {
     using Heap for mapping(uint256 => uint256);
@@ -31,7 +31,7 @@ contract HeapWrapper is CloberHeap {
         return _heap.root();
     }
 
-    function getNextMinValue(uint24 value) external view returns (uint24) {
+    function minGreaterThan(uint24 value) external view returns (uint24) {
         return _heap.minGreaterThan(value);
     }
 }
