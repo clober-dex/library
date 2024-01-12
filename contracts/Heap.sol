@@ -8,9 +8,9 @@ import "./SignificantBit.sol";
 library Heap {
     using SignificantBit for uint256;
 
-    error HeapError(uint256 errorCode);
-    uint256 public constant EMPTY_ERROR = 0;
-    uint256 public constant ALREADY_EXISTS_ERROR = 1;
+    error EmptyError();
+    error AlreadyExistsError();
+
     uint256 public constant B0_BITMAP_KEY = uint256(keccak256("heap"));
     uint256 public constant MAX_UINT_256_MINUS_1 = 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe;
 
@@ -38,7 +38,7 @@ library Heap {
     }
 
     function root(mapping(uint256 => uint256) storage heap) internal view returns (uint24) {
-        if (isEmpty(heap)) revert HeapError(EMPTY_ERROR);
+        if (isEmpty(heap)) revert EmptyError();
 
         (uint256 b0b1, uint256 b2) = _root(heap);
         return uint24((b0b1 << 8) | b2);
@@ -49,7 +49,7 @@ library Heap {
         uint256 mask = 1 << b2;
         uint256 b2Bitmap = heap[b0b1];
         if (b2Bitmap & mask > 0) {
-            revert HeapError(ALREADY_EXISTS_ERROR);
+            revert AlreadyExistsError();
         }
 
         heap[b0b1] = b2Bitmap | mask;
@@ -63,7 +63,7 @@ library Heap {
     }
 
     function pop(mapping(uint256 => uint256) storage heap) internal {
-        if (isEmpty(heap)) revert HeapError(EMPTY_ERROR);
+        if (isEmpty(heap)) revert EmptyError();
 
         (uint256 b0b1, uint256 b2) = _root(heap);
         uint256 mask = 1 << b2;
@@ -92,7 +92,7 @@ library Heap {
             if (b1Bitmap == 0) {
                 uint256 b0Bitmap = (MAX_UINT_256_MINUS_1 << b0) & heap[B0_BITMAP_KEY];
                 if (b0Bitmap == 0) {
-                    revert HeapError(EMPTY_ERROR);
+                    revert EmptyError();
                 }
                 b0 = b0Bitmap.leastSignificantBit();
                 b1Bitmap = heap[~b0];

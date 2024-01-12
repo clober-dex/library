@@ -42,7 +42,7 @@ contract HeapTest is Test {
             assertTrue(testWrapper.has(_min), "HEAP_HAS_ROOT");
             uint256 min;
             if (length == 1) {
-                vm.expectRevert(abi.encodeWithSelector(Heap.HeapError.selector, Heap.EMPTY_ERROR));
+                vm.expectRevert(abi.encodeWithSelector(Heap.EmptyError.selector));
                 testWrapper.minGreaterThan(_min);
             } else {
                 min = testWrapper.minGreaterThan(_min);
@@ -61,15 +61,15 @@ contract HeapTest is Test {
 
     function testPushExistNumber(uint24 number) public {
         testWrapper.push(number);
-        vm.expectRevert(abi.encodeWithSelector(Heap.HeapError.selector, Heap.ALREADY_EXISTS_ERROR));
+        vm.expectRevert(abi.encodeWithSelector(Heap.AlreadyExistsError.selector));
         testWrapper.push(number);
     }
 
     function testPopWhenEmpty() public {
-        vm.expectRevert(abi.encodeWithSelector(Heap.HeapError.selector, Heap.EMPTY_ERROR));
+        vm.expectRevert(abi.encodeWithSelector(Heap.EmptyError.selector));
         testWrapper.pop();
 
-        vm.expectRevert(abi.encodeWithSelector(Heap.HeapError.selector, Heap.EMPTY_ERROR));
+        vm.expectRevert(abi.encodeWithSelector(Heap.EmptyError.selector));
         testWrapper.root();
     }
 }
