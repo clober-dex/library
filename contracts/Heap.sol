@@ -11,7 +11,7 @@ library Heap {
     error EmptyError();
     error AlreadyExistsError();
 
-    uint256 public constant B0_BITMAP_KEY = uint256(keccak256("heap"));
+    uint256 public constant B0_BITMAP_KEY = uint256(keccak256("Heap"));
     uint256 public constant MAX_UINT_256_MINUS_1 = 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe;
 
     function has(mapping(uint256 => uint256) storage heap, uint24 value) internal view returns (bool) {
@@ -57,7 +57,7 @@ library Heap {
             mask = 1 << (b0b1 & 0xff);
             uint256 b0 = b0b1 >> 8;
             heap[B0_BITMAP_KEY] = heap[B0_BITMAP_KEY] | (1 << b0);
-            b0 = ~b0; // TODO add comment
+            b0 = ~b0;
             heap[b0] = heap[b0] | mask;
         }
     }
