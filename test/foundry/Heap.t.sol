@@ -18,24 +18,52 @@ contract HeapTest is Test {
         _min = type(uint24).max;
     }
 
-    function _push(uint24[] memory numbers) private returns (uint256 length) {
-        for (uint32 i = 0; i < numbers.length; ++i) {
+    function _push(uint24[] memory numbers) private returns (uint24[] memory elements) {
+        uint256 length;
+        for (uint256 i = 0; i < numbers.length; ++i) {
             uint24 number = numbers[i];
             if (testWrapper.has(number)) continue;
             if (number < _min) _min = number;
 
             assertFalse(testWrapper.has(number), "BEFORE_PUSH");
             testWrapper.push(number);
+            numbers[length] = number;
             length += 1;
             assertTrue(testWrapper.has(number), "AFTER_PUSH");
             assertEq(testWrapper.root(), _min, "ASSERT_MIN");
         }
+
+        elements = new uint24[](length);
+        for (uint256 i = 0; i < length; ++i) {
+            elements[i] = numbers[i];
+        }
     }
 
-    function testPopxx(uint24[] calldata numbers) public {
+    function testPop(uint24[] calldata numbers) public {
         vm.assume(1 <= numbers.length && numbers.length <= _MAX_HEAP_SIZE);
         assertTrue(testWrapper.isEmpty(), "HAS_TO_BE_EMPTY");
-        uint256 length = _push(numbers);
+        uint24[] memory elements = _push(numbers);
+        uint256 length = elements.length;
+
+        for (uint256 i = 0; i < length; i++) {
+            for (uint256 j = i + 1; j < length; j++) {
+                if (elements[i] > elements[j]) {
+                    uint24 temp = elements[j];
+                    elements[j] = elements[i];
+                    elements[i] = temp;
+                }
+            }
+        }
+
+        for (uint256 i = 0; i < length - 1; i++) {
+            if (elements[i] > 0) {
+                assertTrue(testWrapper.minGreaterThan(elements[i] - 1) == elements[i], "WRONG_MIN");
+            }
+            assertTrue(testWrapper.minGreaterThan(elements[i]) == elements[i + 1], "WRONG_MIN");
+        }
+        vm.expectRevert(abi.encodeWithSelector(Heap.EmptyError.selector));
+        testWrapper.minGreaterThan(elements[length - 1]);
+
         assertFalse(testWrapper.isEmpty(), "HAS_TO_BE_OCCUPIED");
         while (!testWrapper.isEmpty()) {
             _min = testWrapper.root();
@@ -49,9 +77,7 @@ contract HeapTest is Test {
             }
             testWrapper.pop();
             length -= 1;
-            if (length > 0) {
-                assertTrue(testWrapper.root() == min, "WRONG_MIN");
-            }
+            if (length > 0) assertTrue(testWrapper.root() == min, "WRONG_MIN");
 
             assertFalse(testWrapper.has(_min), "ROOT_HAS_BEEN_POPPED");
             if (testWrapper.isEmpty()) break;
