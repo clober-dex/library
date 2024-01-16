@@ -18,12 +18,8 @@ describe('DirtyUint64Wrapper Test', () => {
   let packedLib: PackedUint256Wrapper
 
   before(async () => {
-    dirtyUint64Wrapper = (await (
-      await ethers.getContractFactory('DirtyUint64Wrapper')
-    ).deploy()) as DirtyUint64Wrapper
-    packedLib = (await (
-      await ethers.getContractFactory('PackedUint256Wrapper')
-    ).deploy()) as PackedUint256Wrapper
+    dirtyUint64Wrapper = (await (await ethers.getContractFactory('DirtyUint64Wrapper')).deploy()) as DirtyUint64Wrapper
+    packedLib = (await (await ethers.getContractFactory('PackedUint256Wrapper')).deploy()) as PackedUint256Wrapper
     await setSnapshot('dirtyUint64Wrapper')
   })
 
@@ -56,16 +52,12 @@ describe('DirtyUint64Wrapper Test', () => {
       if (current.isZero()) {
         expected = expected.add(1)
       }
-      expect(await dirtyUint64Wrapper.addClean(current, cleanUint)).to.be.eq(
-        expected,
-      )
+      expect(await dirtyUint64Wrapper.addClean(current, cleanUint)).to.be.eq(expected)
     }
   })
 
   it('add clean when out of `uint64`', async () => {
-    await expect(
-      dirtyUint64Wrapper.addClean(MAX_UINT64, MAX_UINT64),
-    ).to.be.revertedWith(
+    await expect(dirtyUint64Wrapper.addClean(MAX_UINT64, MAX_UINT64)).to.be.revertedWith(
       encodeCustomError('DirtyUint64Error(uint256)', [0], true),
     )
   })
@@ -82,16 +74,12 @@ describe('DirtyUint64Wrapper Test', () => {
       } else {
         expected = current.add(dirtyUint).sub(1)
       }
-      expect(await dirtyUint64Wrapper.addDirty(current, dirtyUint)).to.be.eq(
-        expected,
-      )
+      expect(await dirtyUint64Wrapper.addDirty(current, dirtyUint)).to.be.eq(expected)
     }
   })
 
   it('add dirty when out of `uint64`', async () => {
-    await expect(
-      dirtyUint64Wrapper.addDirty(MAX_UINT64, MAX_UINT64),
-    ).to.be.revertedWith(
+    await expect(dirtyUint64Wrapper.addDirty(MAX_UINT64, MAX_UINT64)).to.be.revertedWith(
       encodeCustomError('DirtyUint64Error(uint256)', [0], true),
     )
   })
@@ -100,9 +88,7 @@ describe('DirtyUint64Wrapper Test', () => {
     for (let i = 0; i < FUZZING_NUM; i++) {
       const cleanUint = randomBigNumber(MAX_UINT64.sub(2))
       const current = randomBigNumber(cleanUint.add(1), MAX_UINT64)
-      expect(await dirtyUint64Wrapper.subClean(current, cleanUint)).to.be.eq(
-        current.sub(cleanUint),
-      )
+      expect(await dirtyUint64Wrapper.subClean(current, cleanUint)).to.be.eq(current.sub(cleanUint))
     }
   })
 
@@ -124,17 +110,11 @@ describe('DirtyUint64Wrapper Test', () => {
       const dirtyUint = randomBigNumber(MAX_UINT64.sub(2))
       const current = randomBigNumber(dirtyUint.add(1), MAX_UINT64)
       if (current.isZero() && dirtyUint.lte(1)) {
-        expect(await dirtyUint64Wrapper.subDirty(current, dirtyUint)).to.be.eq(
-          1,
-        )
+        expect(await dirtyUint64Wrapper.subDirty(current, dirtyUint)).to.be.eq(1)
       } else if (dirtyUint.isZero()) {
-        expect(await dirtyUint64Wrapper.subDirty(current, dirtyUint)).to.be.eq(
-          current,
-        )
+        expect(await dirtyUint64Wrapper.subDirty(current, dirtyUint)).to.be.eq(current)
       } else {
-        expect(await dirtyUint64Wrapper.subDirty(current, dirtyUint)).to.be.eq(
-          current.sub(dirtyUint).add(1),
-        )
+        expect(await dirtyUint64Wrapper.subDirty(current, dirtyUint)).to.be.eq(current.sub(dirtyUint).add(1))
       }
     }
   })
@@ -142,9 +122,7 @@ describe('DirtyUint64Wrapper Test', () => {
   it('sub dirty when current < dirtyUint', async () => {
     const current = randomBigNumber(MAX_UINT64.sub(2))
     const dirtyUint = randomBigNumber(current.add(1), MAX_UINT64)
-    await expect(
-      dirtyUint64Wrapper.subDirty(current, dirtyUint),
-    ).to.be.revertedWith(
+    await expect(dirtyUint64Wrapper.subDirty(current, dirtyUint)).to.be.revertedWith(
       encodeCustomError('DirtyUint64Error(uint256)', [1], true),
     )
   })
@@ -162,14 +140,10 @@ describe('DirtyUint64Wrapper Test', () => {
         for (let j = i + 1; j <= 4; j++) {
           let sum = BigNumber.from(0)
           for (let k = i; k < j; k++) {
-            sum = sum.add(
-              await dirtyUint64Wrapper.toClean(packedLib.get64(packed, k)),
-            )
+            sum = sum.add(await dirtyUint64Wrapper.toClean(packedLib.get64(packed, k)))
           }
           if (sum.lte(MAX_UINT64)) {
-            expect(
-              await dirtyUint64Wrapper.sumPackedUnsafe(packed, i, j),
-            ).to.be.eq(sum)
+            expect(await dirtyUint64Wrapper.sumPackedUnsafe(packed, i, j)).to.be.eq(sum)
           }
         }
       }

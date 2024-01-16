@@ -42,197 +42,101 @@ contract PackedUint256Wrapper is CloberPackedUint256 {
     }
 
     // add
-    function add8Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint8 value
-    ) external pure returns (uint256) {
+    function add8Unsafe(uint256 packed, uint256 index, uint8 value) external pure returns (uint256) {
         return packed.add8Unsafe(index, value);
     }
 
-    function add8(
-        uint256 packed,
-        uint256 index,
-        uint8 value
-    ) external pure returns (uint256) {
+    function add8(uint256 packed, uint256 index, uint8 value) external pure returns (uint256) {
         return packed.add8(index, value);
     }
 
-    function add16Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint16 value
-    ) external pure returns (uint256) {
+    function add16Unsafe(uint256 packed, uint256 index, uint16 value) external pure returns (uint256) {
         return packed.add16Unsafe(index, value);
     }
 
-    function add16(
-        uint256 packed,
-        uint256 index,
-        uint16 value
-    ) external pure returns (uint256) {
+    function add16(uint256 packed, uint256 index, uint16 value) external pure returns (uint256) {
         return packed.add16(index, value);
     }
 
-    function add32Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint32 value
-    ) external pure returns (uint256) {
+    function add32Unsafe(uint256 packed, uint256 index, uint32 value) external pure returns (uint256) {
         return packed.add32Unsafe(index, value);
     }
 
-    function add32(
-        uint256 packed,
-        uint256 index,
-        uint32 value
-    ) external pure returns (uint256) {
+    function add32(uint256 packed, uint256 index, uint32 value) external pure returns (uint256) {
         return packed.add32(index, value);
     }
 
-    function add64Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint64 value
-    ) external pure returns (uint256) {
+    function add64Unsafe(uint256 packed, uint256 index, uint64 value) external pure returns (uint256) {
         return packed.add64Unsafe(index, value);
     }
 
-    function add64(
-        uint256 packed,
-        uint256 index,
-        uint64 value
-    ) external pure returns (uint256) {
+    function add64(uint256 packed, uint256 index, uint64 value) external pure returns (uint256) {
         return packed.add64(index, value);
     }
 
     // sub
-    function sub8Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint8 value
-    ) external pure returns (uint256) {
+    function sub8Unsafe(uint256 packed, uint256 index, uint8 value) external pure returns (uint256) {
         return packed.sub8Unsafe(index, value);
     }
 
-    function sub8(
-        uint256 packed,
-        uint256 index,
-        uint8 value
-    ) external pure returns (uint256) {
+    function sub8(uint256 packed, uint256 index, uint8 value) external pure returns (uint256) {
         return packed.sub8(index, value);
     }
 
-    function sub16Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint16 value
-    ) external pure returns (uint256) {
+    function sub16Unsafe(uint256 packed, uint256 index, uint16 value) external pure returns (uint256) {
         return packed.sub16Unsafe(index, value);
     }
 
-    function sub16(
-        uint256 packed,
-        uint256 index,
-        uint16 value
-    ) external pure returns (uint256) {
+    function sub16(uint256 packed, uint256 index, uint16 value) external pure returns (uint256) {
         return packed.sub16(index, value);
     }
 
-    function sub32Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint32 value
-    ) external pure returns (uint256) {
+    function sub32Unsafe(uint256 packed, uint256 index, uint32 value) external pure returns (uint256) {
         return packed.sub32Unsafe(index, value);
     }
 
-    function sub32(
-        uint256 packed,
-        uint256 index,
-        uint32 value
-    ) external pure returns (uint256) {
+    function sub32(uint256 packed, uint256 index, uint32 value) external pure returns (uint256) {
         return packed.sub32(index, value);
     }
 
-    function sub64Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint64 value
-    ) external pure returns (uint256) {
+    function sub64Unsafe(uint256 packed, uint256 index, uint64 value) external pure returns (uint256) {
         return packed.sub64Unsafe(index, value);
     }
 
-    function sub64(
-        uint256 packed,
-        uint256 index,
-        uint64 value
-    ) external pure returns (uint256) {
+    function sub64(uint256 packed, uint256 index, uint64 value) external pure returns (uint256) {
         return packed.sub64(index, value);
     }
 
     // update
-    function update8Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint8 value
-    ) external pure returns (uint256) {
+    function update8Unsafe(uint256 packed, uint256 index, uint8 value) external pure returns (uint256) {
         return packed.update8Unsafe(index, value);
     }
 
-    function update8(
-        uint256 packed,
-        uint256 index,
-        uint8 value
-    ) external pure returns (uint256) {
+    function update8(uint256 packed, uint256 index, uint8 value) external pure returns (uint256) {
         return packed.update8(index, value);
     }
 
-    function update16Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint16 value
-    ) external pure returns (uint256) {
+    function update16Unsafe(uint256 packed, uint256 index, uint16 value) external pure returns (uint256) {
         return packed.update16Unsafe(index, value);
     }
 
-    function update16(
-        uint256 packed,
-        uint256 index,
-        uint16 value
-    ) external pure returns (uint256) {
+    function update16(uint256 packed, uint256 index, uint16 value) external pure returns (uint256) {
         return packed.update16(index, value);
     }
 
-    function update32Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint32 value
-    ) external pure returns (uint256) {
+    function update32Unsafe(uint256 packed, uint256 index, uint32 value) external pure returns (uint256) {
         return packed.update32Unsafe(index, value);
     }
 
-    function update32(
-        uint256 packed,
-        uint256 index,
-        uint32 value
-    ) external pure returns (uint256) {
+    function update32(uint256 packed, uint256 index, uint32 value) external pure returns (uint256) {
         return packed.update32(index, value);
     }
 
-    function update64Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint64 value
-    ) external pure returns (uint256) {
+    function update64Unsafe(uint256 packed, uint256 index, uint64 value) external pure returns (uint256) {
         return packed.update64Unsafe(index, value);
     }
 
-    function update64(
-        uint256 packed,
-        uint256 index,
-        uint64 value
-    ) external pure returns (uint256) {
+    function update64(uint256 packed, uint256 index, uint64 value) external pure returns (uint256) {
         return packed.update64(index, value);
     }
 
@@ -244,19 +148,11 @@ contract PackedUint256Wrapper is CloberPackedUint256 {
         return packed.total64();
     }
 
-    function sum32(
-        uint256 packed,
-        uint256 from,
-        uint256 to
-    ) external pure returns (uint256) {
+    function sum32(uint256 packed, uint256 from, uint256 to) external pure returns (uint256) {
         return packed.sum32(from, to);
     }
 
-    function sum64(
-        uint256 packed,
-        uint256 from,
-        uint256 to
-    ) external pure returns (uint256) {
+    function sum64(uint256 packed, uint256 from, uint256 to) external pure returns (uint256) {
         return packed.sum64(from, to);
     }
 }

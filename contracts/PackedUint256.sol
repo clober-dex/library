@@ -5,6 +5,7 @@ pragma solidity ^0.8.0;
 
 library PackedUint256 {
     error PackedUint256Error(uint256 errorCode);
+
     uint256 private constant _UINT8_INDEX_ERROR = 0;
     uint256 private constant _UINT16_INDEX_ERROR = 1;
     uint256 private constant _UINT32_INDEX_ERROR = 2;
@@ -75,22 +76,14 @@ library PackedUint256 {
         }
     }
 
-    function add8Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint8 value
-    ) internal pure returns (uint256 ret) {
+    function add8Unsafe(uint256 packed, uint256 index, uint8 value) internal pure returns (uint256 ret) {
         uint256 casted = value;
         assembly {
             ret := add(packed, shl(shl(3, index), casted))
         }
     }
 
-    function add8(
-        uint256 packed,
-        uint256 index,
-        uint8 value
-    ) internal pure returns (uint256 ret) {
+    function add8(uint256 packed, uint256 index, uint8 value) internal pure returns (uint256 ret) {
         if (index > 31) {
             revert PackedUint256Error(_UINT8_INDEX_ERROR);
         }
@@ -99,22 +92,14 @@ library PackedUint256 {
         ret = update8Unsafe(packed, index, current);
     }
 
-    function add16Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint16 value
-    ) internal pure returns (uint256 ret) {
+    function add16Unsafe(uint256 packed, uint256 index, uint16 value) internal pure returns (uint256 ret) {
         uint256 casted = value;
         assembly {
             ret := add(packed, shl(shl(4, index), casted))
         }
     }
 
-    function add16(
-        uint256 packed,
-        uint256 index,
-        uint16 value
-    ) internal pure returns (uint256 ret) {
+    function add16(uint256 packed, uint256 index, uint16 value) internal pure returns (uint256 ret) {
         if (index > 15) {
             revert PackedUint256Error(_UINT16_INDEX_ERROR);
         }
@@ -123,22 +108,14 @@ library PackedUint256 {
         ret = update16Unsafe(packed, index, current);
     }
 
-    function add32Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint32 value
-    ) internal pure returns (uint256 ret) {
+    function add32Unsafe(uint256 packed, uint256 index, uint32 value) internal pure returns (uint256 ret) {
         uint256 casted = value;
         assembly {
             ret := add(packed, shl(shl(5, index), casted))
         }
     }
 
-    function add32(
-        uint256 packed,
-        uint256 index,
-        uint32 value
-    ) internal pure returns (uint256 ret) {
+    function add32(uint256 packed, uint256 index, uint32 value) internal pure returns (uint256 ret) {
         if (index > 7) {
             revert PackedUint256Error(_UINT32_INDEX_ERROR);
         }
@@ -147,22 +124,14 @@ library PackedUint256 {
         ret = update32Unsafe(packed, index, current);
     }
 
-    function add64Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint64 value
-    ) internal pure returns (uint256 ret) {
+    function add64Unsafe(uint256 packed, uint256 index, uint64 value) internal pure returns (uint256 ret) {
         uint256 casted = value;
         assembly {
             ret := add(packed, shl(shl(6, index), casted))
         }
     }
 
-    function add64(
-        uint256 packed,
-        uint256 index,
-        uint64 value
-    ) internal pure returns (uint256 ret) {
+    function add64(uint256 packed, uint256 index, uint64 value) internal pure returns (uint256 ret) {
         if (index > 3) {
             revert PackedUint256Error(_UINT64_INDEX_ERROR);
         }
@@ -171,22 +140,14 @@ library PackedUint256 {
         ret = update64Unsafe(packed, index, current);
     }
 
-    function sub8Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint8 value
-    ) internal pure returns (uint256 ret) {
+    function sub8Unsafe(uint256 packed, uint256 index, uint8 value) internal pure returns (uint256 ret) {
         uint256 casted = value;
         assembly {
             ret := sub(packed, shl(shl(3, index), casted))
         }
     }
 
-    function sub8(
-        uint256 packed,
-        uint256 index,
-        uint8 value
-    ) internal pure returns (uint256 ret) {
+    function sub8(uint256 packed, uint256 index, uint8 value) internal pure returns (uint256 ret) {
         if (index > 31) {
             revert PackedUint256Error(_UINT8_INDEX_ERROR);
         }
@@ -195,22 +156,14 @@ library PackedUint256 {
         ret = update8Unsafe(packed, index, current);
     }
 
-    function sub16Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint16 value
-    ) internal pure returns (uint256 ret) {
+    function sub16Unsafe(uint256 packed, uint256 index, uint16 value) internal pure returns (uint256 ret) {
         uint256 casted = value;
         assembly {
             ret := sub(packed, shl(shl(4, index), casted))
         }
     }
 
-    function sub16(
-        uint256 packed,
-        uint256 index,
-        uint16 value
-    ) internal pure returns (uint256 ret) {
+    function sub16(uint256 packed, uint256 index, uint16 value) internal pure returns (uint256 ret) {
         if (index > 15) {
             revert PackedUint256Error(_UINT16_INDEX_ERROR);
         }
@@ -219,22 +172,14 @@ library PackedUint256 {
         ret = update16Unsafe(packed, index, current);
     }
 
-    function sub32Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint32 value
-    ) internal pure returns (uint256 ret) {
+    function sub32Unsafe(uint256 packed, uint256 index, uint32 value) internal pure returns (uint256 ret) {
         uint256 casted = value;
         assembly {
             ret := sub(packed, shl(shl(5, index), casted))
         }
     }
 
-    function sub32(
-        uint256 packed,
-        uint256 index,
-        uint32 value
-    ) internal pure returns (uint256 ret) {
+    function sub32(uint256 packed, uint256 index, uint32 value) internal pure returns (uint256 ret) {
         if (index > 7) {
             revert PackedUint256Error(_UINT32_INDEX_ERROR);
         }
@@ -243,22 +188,14 @@ library PackedUint256 {
         ret = update32Unsafe(packed, index, current);
     }
 
-    function sub64Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint64 value
-    ) internal pure returns (uint256 ret) {
+    function sub64Unsafe(uint256 packed, uint256 index, uint64 value) internal pure returns (uint256 ret) {
         uint256 casted = value;
         assembly {
             ret := sub(packed, shl(shl(6, index), casted))
         }
     }
 
-    function sub64(
-        uint256 packed,
-        uint256 index,
-        uint64 value
-    ) internal pure returns (uint256 ret) {
+    function sub64(uint256 packed, uint256 index, uint64 value) internal pure returns (uint256 ret) {
         if (index > 3) {
             revert PackedUint256Error(_UINT64_INDEX_ERROR);
         }
@@ -267,11 +204,7 @@ library PackedUint256 {
         ret = update64Unsafe(packed, index, current);
     }
 
-    function update8Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint8 value
-    ) internal pure returns (uint256 ret) {
+    function update8Unsafe(uint256 packed, uint256 index, uint8 value) internal pure returns (uint256 ret) {
         unchecked {
             index = index << 3;
             packed = packed - (packed & (_MAX_UINT8 << index));
@@ -282,11 +215,7 @@ library PackedUint256 {
         }
     }
 
-    function update8(
-        uint256 packed,
-        uint256 index,
-        uint8 value
-    ) internal pure returns (uint256 ret) {
+    function update8(uint256 packed, uint256 index, uint8 value) internal pure returns (uint256 ret) {
         if (index > 31) {
             revert PackedUint256Error(_UINT8_INDEX_ERROR);
         }
@@ -300,11 +229,7 @@ library PackedUint256 {
         }
     }
 
-    function update16Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint16 value
-    ) internal pure returns (uint256 ret) {
+    function update16Unsafe(uint256 packed, uint256 index, uint16 value) internal pure returns (uint256 ret) {
         unchecked {
             index = index << 4;
             packed = packed - (packed & (_MAX_UINT16 << index));
@@ -315,11 +240,7 @@ library PackedUint256 {
         }
     }
 
-    function update16(
-        uint256 packed,
-        uint256 index,
-        uint16 value
-    ) internal pure returns (uint256 ret) {
+    function update16(uint256 packed, uint256 index, uint16 value) internal pure returns (uint256 ret) {
         if (index > 15) {
             revert PackedUint256Error(_UINT16_INDEX_ERROR);
         }
@@ -333,11 +254,7 @@ library PackedUint256 {
         }
     }
 
-    function update32Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint32 value
-    ) internal pure returns (uint256 ret) {
+    function update32Unsafe(uint256 packed, uint256 index, uint32 value) internal pure returns (uint256 ret) {
         unchecked {
             index = index << 5;
             packed = packed - (packed & (_MAX_UINT32 << index));
@@ -348,11 +265,7 @@ library PackedUint256 {
         }
     }
 
-    function update32(
-        uint256 packed,
-        uint256 index,
-        uint32 value
-    ) internal pure returns (uint256 ret) {
+    function update32(uint256 packed, uint256 index, uint32 value) internal pure returns (uint256 ret) {
         if (index > 7) {
             revert PackedUint256Error(_UINT32_INDEX_ERROR);
         }
@@ -366,11 +279,7 @@ library PackedUint256 {
         }
     }
 
-    function update64Unsafe(
-        uint256 packed,
-        uint256 index,
-        uint64 value
-    ) internal pure returns (uint256 ret) {
+    function update64Unsafe(uint256 packed, uint256 index, uint64 value) internal pure returns (uint256 ret) {
         unchecked {
             index = index << 6;
             packed = packed - (packed & (_MAX_UINT64 << index));
@@ -381,11 +290,7 @@ library PackedUint256 {
         }
     }
 
-    function update64(
-        uint256 packed,
-        uint256 index,
-        uint64 value
-    ) internal pure returns (uint256 ret) {
+    function update64(uint256 packed, uint256 index, uint64 value) internal pure returns (uint256 ret) {
         if (index > 3) {
             revert PackedUint256Error(_UINT64_INDEX_ERROR);
         }
@@ -421,11 +326,7 @@ library PackedUint256 {
         }
     }
 
-    function sum32(
-        uint256 packed,
-        uint256 from,
-        uint256 to
-    ) internal pure returns (uint256) {
+    function sum32(uint256 packed, uint256 from, uint256 to) internal pure returns (uint256) {
         unchecked {
             packed = packed >> (from << 5);
             uint256 ret = 0;
@@ -437,11 +338,7 @@ library PackedUint256 {
         }
     }
 
-    function sum64(
-        uint256 packed,
-        uint256 from,
-        uint256 to
-    ) internal pure returns (uint256) {
+    function sum64(uint256 packed, uint256 from, uint256 to) internal pure returns (uint256) {
         unchecked {
             packed = packed >> (from << 6);
             uint256 ret = 0;

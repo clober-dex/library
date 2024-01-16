@@ -15,9 +15,7 @@ describe('PackedUint256 Test', () => {
   const FUZZING_NUM = 20
   let packedLib: PackedUint256Wrapper
   before(async () => {
-    packedLib = (await (
-      await ethers.getContractFactory('PackedUint256Wrapper')
-    ).deploy()) as PackedUint256Wrapper
+    packedLib = (await (await ethers.getContractFactory('PackedUint256Wrapper')).deploy()) as PackedUint256Wrapper
     await setSnapshot('PackedUint256')
   })
 
@@ -239,10 +237,7 @@ describe('PackedUint256 Test', () => {
           const add = randomBigNumber(MAX_UINT8.sub(slices[j]))
           const expected = packed.add(add.shl(j * 8))
           const added = await packedLib.add8Unsafe(packed, j, add)
-          expect(added.toHexString()).to.be.equal(
-            expected.toHexString(),
-            `index ${j}`,
-          )
+          expect(added.toHexString()).to.be.equal(expected.toHexString(), `index ${j}`)
         }
       })
     }
@@ -250,9 +245,7 @@ describe('PackedUint256 Test', () => {
 
   describe('#add8()', () => {
     it('should revert invalid index', async () => {
-      await expect(
-        packedLib.add8(randomBigNumber(), 32, randomBigNumber(MAX_UINT8)),
-      ).to.be.revertedWith(
+      await expect(packedLib.add8(randomBigNumber(), 32, randomBigNumber(MAX_UINT8))).to.be.revertedWith(
         encodeCustomError('PackedUint256Error(uint256)', [0], true),
       )
     })
@@ -269,10 +262,7 @@ describe('PackedUint256 Test', () => {
           const add = randomBigNumber(MAX_UINT8.sub(slices[j]))
           const expected = packed.add(add.shl(j * 8))
           const added = await packedLib.add8(packed, j, add)
-          expect(added.toHexString()).to.be.equal(
-            expected.toHexString(),
-            `index ${j}`,
-          )
+          expect(added.toHexString()).to.be.equal(expected.toHexString(), `index ${j}`)
           const overAdded = MAX_UINT8.sub(slices[j]).add(1)
           await expect(packedLib.add8(packed, j, overAdded)).to.be.reverted
         }
@@ -293,10 +283,7 @@ describe('PackedUint256 Test', () => {
           const add = randomBigNumber(MAX_UINT16.sub(slices[j]))
           const expected = packed.add(add.shl(j * 16))
           const added = await packedLib.add16Unsafe(packed, j, add)
-          expect(added.toHexString()).to.be.equal(
-            expected.toHexString(),
-            `index ${j}`,
-          )
+          expect(added.toHexString()).to.be.equal(expected.toHexString(), `index ${j}`)
         }
       })
     }
@@ -304,9 +291,7 @@ describe('PackedUint256 Test', () => {
 
   describe('#add16()', () => {
     it('should revert invalid index', async () => {
-      await expect(
-        packedLib.add16(randomBigNumber(), 16, randomBigNumber(MAX_UINT16)),
-      ).to.be.revertedWith(
+      await expect(packedLib.add16(randomBigNumber(), 16, randomBigNumber(MAX_UINT16))).to.be.revertedWith(
         encodeCustomError('PackedUint256Error(uint256)', [1], true),
       )
     })
@@ -323,10 +308,7 @@ describe('PackedUint256 Test', () => {
           const add = randomBigNumber(MAX_UINT16.sub(slices[j]))
           const expected = packed.add(add.shl(j * 16))
           const added = await packedLib.add16(packed, j, add)
-          expect(added.toHexString()).to.be.equal(
-            expected.toHexString(),
-            `index ${j}`,
-          )
+          expect(added.toHexString()).to.be.equal(expected.toHexString(), `index ${j}`)
           const overAdded = MAX_UINT16.sub(slices[j]).add(1)
           await expect(packedLib.add16(packed, j, overAdded)).to.be.reverted
         }
@@ -347,10 +329,7 @@ describe('PackedUint256 Test', () => {
           const add = randomBigNumber(MAX_UINT32.sub(slices[j]))
           const expected = packed.add(add.shl(j * 32))
           const added = await packedLib.add32Unsafe(packed, j, add)
-          expect(added.toHexString()).to.be.equal(
-            expected.toHexString(),
-            `index ${j}`,
-          )
+          expect(added.toHexString()).to.be.equal(expected.toHexString(), `index ${j}`)
         }
       })
     }
@@ -358,9 +337,7 @@ describe('PackedUint256 Test', () => {
 
   describe('#add32()', () => {
     it('should revert invalid index', async () => {
-      await expect(
-        packedLib.add32(randomBigNumber(), 8, randomBigNumber(MAX_UINT32)),
-      ).to.be.revertedWith(
+      await expect(packedLib.add32(randomBigNumber(), 8, randomBigNumber(MAX_UINT32))).to.be.revertedWith(
         encodeCustomError('PackedUint256Error(uint256)', [2], true),
       )
     })
@@ -377,10 +354,7 @@ describe('PackedUint256 Test', () => {
           const add = randomBigNumber(MAX_UINT32.sub(slices[j]))
           const expected = packed.add(add.shl(j * 32))
           const added = await packedLib.add32(packed, j, add)
-          expect(added.toHexString()).to.be.equal(
-            expected.toHexString(),
-            `index ${j}`,
-          )
+          expect(added.toHexString()).to.be.equal(expected.toHexString(), `index ${j}`)
           const overAdded = MAX_UINT32.sub(slices[j]).add(1)
           await expect(packedLib.add32(packed, j, overAdded)).to.be.reverted
         }
@@ -401,10 +375,7 @@ describe('PackedUint256 Test', () => {
           const add = randomBigNumber(MAX_UINT64.sub(slices[j]))
           const expected = packed.add(add.shl(j * 64))
           const added = await packedLib.add64Unsafe(packed, j, add)
-          expect(added.toHexString()).to.be.equal(
-            expected.toHexString(),
-            `index ${j}`,
-          )
+          expect(added.toHexString()).to.be.equal(expected.toHexString(), `index ${j}`)
         }
       })
     }
@@ -412,9 +383,7 @@ describe('PackedUint256 Test', () => {
 
   describe('#add64()', () => {
     it('should revert invalid index', async () => {
-      await expect(
-        packedLib.add64(randomBigNumber(), 4, randomBigNumber(MAX_UINT64)),
-      ).to.be.revertedWith(
+      await expect(packedLib.add64(randomBigNumber(), 4, randomBigNumber(MAX_UINT64))).to.be.revertedWith(
         encodeCustomError('PackedUint256Error(uint256)', [3], true),
       )
     })
@@ -431,10 +400,7 @@ describe('PackedUint256 Test', () => {
           const add = randomBigNumber(MAX_UINT64.sub(slices[j]))
           const expected = packed.add(add.shl(j * 64))
           const added = await packedLib.add64(packed, j, add)
-          expect(added.toHexString()).to.be.equal(
-            expected.toHexString(),
-            `index ${j}`,
-          )
+          expect(added.toHexString()).to.be.equal(expected.toHexString(), `index ${j}`)
           const overAdded = MAX_UINT64.sub(slices[j]).add(1)
           await expect(packedLib.add64(packed, j, overAdded)).to.be.reverted
         }
@@ -455,10 +421,7 @@ describe('PackedUint256 Test', () => {
           const sub = randomBigNumber(slices[j])
           const expected = packed.sub(sub.shl(j * 8))
           const subbed = await packedLib.sub8Unsafe(packed, j, sub)
-          expect(subbed.toHexString()).to.be.equal(
-            expected.toHexString(),
-            `index ${j}`,
-          )
+          expect(subbed.toHexString()).to.be.equal(expected.toHexString(), `index ${j}`)
         }
       })
     }
@@ -466,9 +429,7 @@ describe('PackedUint256 Test', () => {
 
   describe('#sub8()', () => {
     it('should revert invalid index', async () => {
-      await expect(
-        packedLib.sub8(randomBigNumber(), 32, randomBigNumber(MAX_UINT8)),
-      ).to.be.revertedWith(
+      await expect(packedLib.sub8(randomBigNumber(), 32, randomBigNumber(MAX_UINT8))).to.be.revertedWith(
         encodeCustomError('PackedUint256Error(uint256)', [0], true),
       )
     })
@@ -485,10 +446,7 @@ describe('PackedUint256 Test', () => {
           const sub = randomBigNumber(slices[j])
           const expected = packed.sub(sub.shl(j * 8))
           const subbed = await packedLib.sub8(packed, j, sub)
-          expect(subbed.toHexString()).to.be.equal(
-            expected.toHexString(),
-            `index ${j}`,
-          )
+          expect(subbed.toHexString()).to.be.equal(expected.toHexString(), `index ${j}`)
           const overSubbed = slices[j] + 1
           await expect(packedLib.sub8(packed, j, overSubbed)).to.be.reverted
         }
@@ -509,10 +467,7 @@ describe('PackedUint256 Test', () => {
           const sub = randomBigNumber(slices[j])
           const expected = packed.sub(sub.shl(j * 16))
           const subbed = await packedLib.sub16Unsafe(packed, j, sub)
-          expect(subbed.toHexString()).to.be.equal(
-            expected.toHexString(),
-            `index ${j}`,
-          )
+          expect(subbed.toHexString()).to.be.equal(expected.toHexString(), `index ${j}`)
         }
       })
     }
@@ -520,9 +475,7 @@ describe('PackedUint256 Test', () => {
 
   describe('#sub16()', () => {
     it('should revert invalid index', async () => {
-      await expect(
-        packedLib.sub16(randomBigNumber(), 16, randomBigNumber(MAX_UINT16)),
-      ).to.be.revertedWith(
+      await expect(packedLib.sub16(randomBigNumber(), 16, randomBigNumber(MAX_UINT16))).to.be.revertedWith(
         encodeCustomError('PackedUint256Error(uint256)', [1], true),
       )
     })
@@ -539,10 +492,7 @@ describe('PackedUint256 Test', () => {
           const sub = randomBigNumber(slices[j])
           const expected = packed.sub(sub.shl(j * 16))
           const subbed = await packedLib.sub16(packed, j, sub)
-          expect(subbed.toHexString()).to.be.equal(
-            expected.toHexString(),
-            `index ${j}`,
-          )
+          expect(subbed.toHexString()).to.be.equal(expected.toHexString(), `index ${j}`)
           const overSubbed = slices[j] + 1
           await expect(packedLib.sub16(packed, j, overSubbed)).to.be.reverted
         }
@@ -563,10 +513,7 @@ describe('PackedUint256 Test', () => {
           const sub = randomBigNumber(slices[j])
           const expected = packed.sub(sub.shl(j * 32))
           const subbed = await packedLib.sub32Unsafe(packed, j, sub)
-          expect(subbed.toHexString()).to.be.equal(
-            expected.toHexString(),
-            `index ${j}`,
-          )
+          expect(subbed.toHexString()).to.be.equal(expected.toHexString(), `index ${j}`)
         }
       })
     }
@@ -574,9 +521,7 @@ describe('PackedUint256 Test', () => {
 
   describe('#sub32()', () => {
     it('should revert invalid index', async () => {
-      await expect(
-        packedLib.sub32(randomBigNumber(), 8, randomBigNumber(MAX_UINT32)),
-      ).to.be.revertedWith(
+      await expect(packedLib.sub32(randomBigNumber(), 8, randomBigNumber(MAX_UINT32))).to.be.revertedWith(
         encodeCustomError('PackedUint256Error(uint256)', [2], true),
       )
     })
@@ -593,10 +538,7 @@ describe('PackedUint256 Test', () => {
           const sub = randomBigNumber(slices[j])
           const expected = packed.sub(sub.shl(j * 32))
           const subbed = await packedLib.sub32(packed, j, sub)
-          expect(subbed.toHexString()).to.be.equal(
-            expected.toHexString(),
-            `index ${j}`,
-          )
+          expect(subbed.toHexString()).to.be.equal(expected.toHexString(), `index ${j}`)
           const overSubbed = slices[j] + 1
           await expect(packedLib.sub32(packed, j, overSubbed)).to.be.reverted
         }
@@ -617,10 +559,7 @@ describe('PackedUint256 Test', () => {
           const sub = randomBigNumber(slices[j])
           const expected = packed.sub(sub.shl(j * 64))
           const subbed = await packedLib.sub64Unsafe(packed, j, sub)
-          expect(subbed.toHexString()).to.be.equal(
-            expected.toHexString(),
-            `index ${j}`,
-          )
+          expect(subbed.toHexString()).to.be.equal(expected.toHexString(), `index ${j}`)
         }
       })
     }
@@ -628,9 +567,7 @@ describe('PackedUint256 Test', () => {
 
   describe('#sub64()', () => {
     it('should revert invalid index', async () => {
-      await expect(
-        packedLib.sub64(randomBigNumber(), 8, randomBigNumber(MAX_UINT64)),
-      ).to.be.revertedWith(
+      await expect(packedLib.sub64(randomBigNumber(), 8, randomBigNumber(MAX_UINT64))).to.be.revertedWith(
         encodeCustomError('PackedUint256Error(uint256)', [3], true),
       )
     })
@@ -647,10 +584,7 @@ describe('PackedUint256 Test', () => {
           const sub = randomBigNumber(slices[j])
           const expected = packed.sub(sub.shl(j * 64))
           const subbed = await packedLib.sub64(packed, j, sub)
-          expect(subbed.toHexString()).to.be.equal(
-            expected.toHexString(),
-            `index ${j}`,
-          )
+          expect(subbed.toHexString()).to.be.equal(expected.toHexString(), `index ${j}`)
           const overSubbed = slices[j].add(1)
           await expect(packedLib.sub64(packed, j, overSubbed)).to.be.reverted
         }
@@ -665,10 +599,7 @@ describe('PackedUint256 Test', () => {
         for (let j = 0; j < 32; j++) {
           const value = randomBigNumber(MAX_UINT8)
           const ret = await packedLib.update8Unsafe(packed, j, value)
-          expect(await packedLib.get8Unsafe(ret, j)).to.be.equal(
-            value,
-            `index ${j}`,
-          )
+          expect(await packedLib.get8Unsafe(ret, j)).to.be.equal(value, `index ${j}`)
         }
       })
     }
@@ -676,9 +607,7 @@ describe('PackedUint256 Test', () => {
 
   describe('#update8()', () => {
     it('should revert invalid index', async () => {
-      await expect(
-        packedLib.update8(randomBigNumber(), 32, randomBigNumber(MAX_UINT8)),
-      ).to.be.revertedWith(
+      await expect(packedLib.update8(randomBigNumber(), 32, randomBigNumber(MAX_UINT8))).to.be.revertedWith(
         encodeCustomError('PackedUint256Error(uint256)', [0], true),
       )
     })
@@ -689,10 +618,7 @@ describe('PackedUint256 Test', () => {
         for (let j = 0; j < 32; j++) {
           const value = randomBigNumber(MAX_UINT8)
           const ret = await packedLib.update8(packed, j, value)
-          expect(await packedLib.get8Unsafe(ret, j)).to.be.equal(
-            value,
-            `index ${j}`,
-          )
+          expect(await packedLib.get8Unsafe(ret, j)).to.be.equal(value, `index ${j}`)
         }
       })
     }
@@ -705,10 +631,7 @@ describe('PackedUint256 Test', () => {
         for (let j = 0; j < 16; j++) {
           const value = randomBigNumber(MAX_UINT16)
           const ret = await packedLib.update16Unsafe(packed, j, value)
-          expect(await packedLib.get16Unsafe(ret, j)).to.be.equal(
-            value,
-            `index ${j}`,
-          )
+          expect(await packedLib.get16Unsafe(ret, j)).to.be.equal(value, `index ${j}`)
         }
       })
     }
@@ -716,9 +639,7 @@ describe('PackedUint256 Test', () => {
 
   describe('#update16()', () => {
     it('should revert invalid index', async () => {
-      await expect(
-        packedLib.update16(randomBigNumber(), 16, randomBigNumber(MAX_UINT16)),
-      ).to.be.revertedWith(
+      await expect(packedLib.update16(randomBigNumber(), 16, randomBigNumber(MAX_UINT16))).to.be.revertedWith(
         encodeCustomError('PackedUint256Error(uint256)', [1], true),
       )
     })
@@ -729,10 +650,7 @@ describe('PackedUint256 Test', () => {
         for (let j = 0; j < 16; j++) {
           const value = randomBigNumber(MAX_UINT16)
           const ret = await packedLib.update16(packed, j, value)
-          expect(await packedLib.get16Unsafe(ret, j)).to.be.equal(
-            value,
-            `index ${j}`,
-          )
+          expect(await packedLib.get16Unsafe(ret, j)).to.be.equal(value, `index ${j}`)
         }
       })
     }
@@ -745,10 +663,7 @@ describe('PackedUint256 Test', () => {
         for (let j = 0; j < 8; j++) {
           const value = randomBigNumber(MAX_UINT32)
           const ret = await packedLib.update32Unsafe(packed, j, value)
-          expect(await packedLib.get32Unsafe(ret, j)).to.be.equal(
-            value,
-            `index ${j}`,
-          )
+          expect(await packedLib.get32Unsafe(ret, j)).to.be.equal(value, `index ${j}`)
         }
       })
     }
@@ -756,9 +671,7 @@ describe('PackedUint256 Test', () => {
 
   describe('#update32()', () => {
     it('should revert invalid index', async () => {
-      await expect(
-        packedLib.update32(randomBigNumber(), 8, randomBigNumber(MAX_UINT32)),
-      ).to.be.revertedWith(
+      await expect(packedLib.update32(randomBigNumber(), 8, randomBigNumber(MAX_UINT32))).to.be.revertedWith(
         encodeCustomError('PackedUint256Error(uint256)', [2], true),
       )
     })
@@ -769,10 +682,7 @@ describe('PackedUint256 Test', () => {
         for (let j = 0; j < 8; j++) {
           const value = randomBigNumber(MAX_UINT32)
           const ret = await packedLib.update32(packed, j, value)
-          expect(await packedLib.get32Unsafe(ret, j)).to.be.equal(
-            value,
-            `index ${j}`,
-          )
+          expect(await packedLib.get32Unsafe(ret, j)).to.be.equal(value, `index ${j}`)
         }
       })
     }
@@ -785,10 +695,7 @@ describe('PackedUint256 Test', () => {
         for (let j = 0; j < 4; j++) {
           const value = randomBigNumber(MAX_UINT64)
           const ret = await packedLib.update64Unsafe(packed, j, value)
-          expect((await packedLib.get64Unsafe(ret, j)).toString()).to.be.equal(
-            value.toString(),
-            `index ${j}`,
-          )
+          expect((await packedLib.get64Unsafe(ret, j)).toString()).to.be.equal(value.toString(), `index ${j}`)
         }
       })
     }
@@ -796,9 +703,7 @@ describe('PackedUint256 Test', () => {
 
   describe('#update64()', () => {
     it('should revert invalid index', async () => {
-      await expect(
-        packedLib.update64(randomBigNumber(), 8, randomBigNumber(MAX_UINT64)),
-      ).to.be.revertedWith(
+      await expect(packedLib.update64(randomBigNumber(), 8, randomBigNumber(MAX_UINT64))).to.be.revertedWith(
         encodeCustomError('PackedUint256Error(uint256)', [3], true),
       )
     })
@@ -809,10 +714,7 @@ describe('PackedUint256 Test', () => {
         for (let j = 0; j < 4; j++) {
           const value = randomBigNumber(MAX_UINT64)
           const ret = await packedLib.update64(packed, j, value)
-          expect((await packedLib.get64Unsafe(ret, j)).toString()).to.be.equal(
-            value.toString(),
-            `index ${j}`,
-          )
+          expect((await packedLib.get64Unsafe(ret, j)).toString()).to.be.equal(value.toString(), `index ${j}`)
         }
       })
     }
@@ -843,9 +745,7 @@ describe('PackedUint256 Test', () => {
         }
         const slices = await Promise.all(promises)
         const expectedSum = slices.reduce((a, b) => a.add(b), BigNumber.from(0))
-        expect((await packedLib.total64(packed)).toString()).to.be.equal(
-          expectedSum.toString(),
-        )
+        expect((await packedLib.total64(packed)).toString()).to.be.equal(expectedSum.toString())
       })
     }
   })
@@ -861,13 +761,8 @@ describe('PackedUint256 Test', () => {
         const slices = await Promise.all(promises)
         for (let from = 0; from < 8; from++) {
           for (let to = from; to < 8; to++) {
-            const expectedSum = slices
-              .filter((v, i) => from <= i && i < to)
-              .reduce((a, b) => a + b, 0)
-            expect(await packedLib.sum32(packed, from, to)).to.be.equal(
-              expectedSum,
-              `from ${from}, to ${to}`,
-            )
+            const expectedSum = slices.filter((v, i) => from <= i && i < to).reduce((a, b) => a + b, 0)
+            expect(await packedLib.sum32(packed, from, to)).to.be.equal(expectedSum, `from ${from}, to ${to}`)
           }
         }
       })
@@ -888,9 +783,10 @@ describe('PackedUint256 Test', () => {
             const expectedSum = slices
               .filter((v, i) => from <= i && i < to)
               .reduce((a, b) => a.add(b), BigNumber.from(0))
-            expect(
-              (await packedLib.sum64(packed, from, to)).toString(),
-            ).to.be.equal(expectedSum.toString(), `from ${from}, to ${to}`)
+            expect((await packedLib.sum64(packed, from, to)).toString()).to.be.equal(
+              expectedSum.toString(),
+              `from ${from}, to ${to}`,
+            )
           }
         }
       })

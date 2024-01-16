@@ -44,9 +44,7 @@ describe('SegmentedSegmentTree', () => {
     }
 
     TreeWithWeb3 = new web3.eth.Contract(
-      JSON.parse(
-        <string>TreeTest.interface.format(ethers.utils.FormatTypes.json),
-      ),
+      JSON.parse(<string>TreeTest.interface.format(ethers.utils.FormatTypes.json)),
       TreeTest.address,
     )
     await setSnapshot('SegmentedSegmentTree')
@@ -64,9 +62,7 @@ describe('SegmentedSegmentTree', () => {
       data: calldata,
     })
     await receipt.wait()
-    expect(await TreeTest.query(l, r).then((v) => v.toString())).to.be.equal(
-      tree.query(l, r).toString(),
-    )
+    expect(await TreeTest.query(l, r).then((v) => v.toString())).to.be.equal(tree.query(l, r).toString())
   }
 
   async function testAllQueries() {
@@ -95,10 +91,7 @@ describe('SegmentedSegmentTree', () => {
           await test(offset + i * groupSize, offset + size + i * groupSize)
           await test(offset + i * groupSize + 1, offset + size + i * groupSize)
           await test(offset + i * groupSize, offset + size + i * groupSize - 1)
-          await test(
-            offset + i * groupSize + 1,
-            offset + size + i * groupSize - 1,
-          )
+          await test(offset + i * groupSize + 1, offset + size + i * groupSize - 1)
         }
       }
     }
@@ -139,9 +132,7 @@ describe('SegmentedSegmentTree', () => {
   })
 
   it('check out of index on update', async () => {
-    await expect(
-      TreeTest.update(BigNumber.from(2).pow(16), 0),
-    ).to.be.revertedWith(
+    await expect(TreeTest.update(BigNumber.from(2).pow(16), 0)).to.be.revertedWith(
       encodeCustomError('SegmentedSegmentTreeError(uint256)', [0], false),
     )
   })

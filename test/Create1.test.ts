@@ -17,9 +17,7 @@ describe('Create1Wrapper Test', () => {
 
   before(async () => {
     Create1WrapperFactory = await ethers.getContractFactory('Create1Wrapper')
-    create1Wrapper = (await (
-      await Create1WrapperFactory
-    ).deploy()) as Create1Wrapper
+    create1Wrapper = (await (await Create1WrapperFactory).deploy()) as Create1Wrapper
     ;[, deployer] = await ethers.getSigners()
     await network.provider.send('evm_setAutomine', [false])
     await setSnapshot('create1Wrapper')
@@ -34,10 +32,7 @@ describe('Create1Wrapper Test', () => {
     await hre.network.provider.send('hardhat_reset')
   })
 
-  const _testComputeAddress = async (
-    origin: SignerWithAddress,
-    nonce: BigNumberish,
-  ) => {
+  const _testComputeAddress = async (origin: SignerWithAddress, nonce: BigNumberish) => {
     const expected = await create1Wrapper.computeAddress(origin.address, nonce)
 
     const generated = (
@@ -62,8 +57,6 @@ describe('Create1Wrapper Test', () => {
   })
 
   it('testComputeAddressRevertMaxNonce', async () => {
-    await expect(
-      create1Wrapper.computeAddress(deployer.address, MAX_UINT64),
-    ).to.be.revertedWith('MAX_NONCE')
+    await expect(create1Wrapper.computeAddress(deployer.address, MAX_UINT64)).to.be.revertedWith('MAX_NONCE')
   })
 })

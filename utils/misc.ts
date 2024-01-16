@@ -1,10 +1,4 @@
-import {
-  BigNumber,
-  BigNumberish,
-  Contract,
-  ContractTransaction,
-  utils,
-} from 'ethers'
+import { BigNumber, BigNumberish, Contract, ContractTransaction, utils } from 'ethers'
 import { HardhatRuntimeEnvironment } from 'hardhat/types'
 
 import { NETWORK } from './constant'
@@ -25,10 +19,7 @@ export const liveLog = (str: string): void => {
   }
 }
 
-export const bn2StrWithPrecision = (
-  bn: BigNumber,
-  precision: number,
-): string => {
+export const bn2StrWithPrecision = (bn: BigNumber, precision: number): string => {
   const prec = BigNumber.from(10).pow(precision)
   const q = bn.div(prec)
   const r = bn.mod(prec)
@@ -57,10 +48,7 @@ export const waitForTx = async (tx: Promise<ContractTransaction>) => {
 export function randomBigNumber(): BigNumber
 export function randomBigNumber(max: BigNumberish): BigNumber
 export function randomBigNumber(min: BigNumberish, max: BigNumberish): BigNumber
-export function randomBigNumber(
-  min?: BigNumberish,
-  max?: BigNumberish,
-): BigNumber {
+export function randomBigNumber(min?: BigNumberish, max?: BigNumberish): BigNumber {
   if (!max) {
     max = min
     min = undefined
@@ -74,16 +62,10 @@ export function randomBigNumber(
   if (!max) {
     max = BigNumber.from(2).pow(256).sub(1)
   }
-  return BigNumber.from(utils.randomBytes(32))
-    .mod(BigNumber.from(max).sub(min).add(1))
-    .add(min)
+  return BigNumber.from(utils.randomBytes(32)).mod(BigNumber.from(max).sub(min).add(1)).add(min)
 }
 
-export const generateRandoms = (
-  min: number,
-  max: number,
-  numOfRandoms: number,
-): number[] => {
+export const generateRandoms = (min: number, max: number, numOfRandoms: number): number[] => {
   const randoms = Array.from({ length: max - min + 1 }, (_, i) => i + min)
     .sort(() => 0.5 - Math.random())
     .slice(0, numOfRandoms)
@@ -106,9 +88,7 @@ export class UsefulMap<K, V> extends Map<K, V> {
     return value
   }
 
-  async forEachAsync(
-    callbackfn: (value: V, key: K, map: UsefulMap<K, V>) => Promise<void>,
-  ): Promise<void> {
+  async forEachAsync(callbackfn: (value: V, key: K, map: UsefulMap<K, V>) => Promise<void>): Promise<void> {
     for (const [key, value] of this.entries()) {
       await callbackfn(value, key, this)
     }

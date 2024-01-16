@@ -18,8 +18,8 @@ contract SignificantBitTest is Test {
         wrapper.leastSignificantBit(0);
         // powers of 2
         for (uint256 i = 0; i < 256; ++i) {
-            assertEq(wrapper.leastSignificantBit(2**i), i);
+            assertEq(wrapper.leastSignificantBit(2 ** i), i);
         }
-        assertEq(wrapper.leastSignificantBit(2**256 - 1), 0);
+        assertEq(wrapper.leastSignificantBit(2 ** 256 - 1), 0);
     }
 }
