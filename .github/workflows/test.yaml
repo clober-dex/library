@@ -86,7 +86,7 @@ jobs:
       - name: Install Dependencies
         run: npm install --ignore-scripts
       - name: Hardhat coverage
-        run: npm run hardhat:coverage
+        run: npm run coverage:forge
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
