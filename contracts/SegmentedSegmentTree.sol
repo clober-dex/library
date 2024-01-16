@@ -26,7 +26,6 @@ import "./DirtyUint64.sol";
  *
  * 🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲
  */
-
 library SegmentedSegmentTree {
     using PackedUint256 for uint256;
     using DirtyUint64 for uint64;

@@ -30,7 +30,6 @@ import "./SignificantBit.sol";
  *
  * 🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙
  */
-
 library OctopusHeap {
     using PackedUint256 for uint256;
     using SignificantBit for uint256;
