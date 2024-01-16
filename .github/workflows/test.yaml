@@ -55,7 +55,7 @@ jobs:
         run: forge test -vv
 
   hardhat-coverage:
-    name: Hardhat Coverage CI
+    name: Forge Coverage CI
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -66,6 +66,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
       - name: Cache node modules
         id: cache-npm
         uses: actions/cache@v3
@@ -85,6 +89,10 @@ jobs:
         run: npm list
       - name: Install Dependencies
         run: npm install --ignore-scripts
+      - name: Install Forge
+        run: forge install
+      - name: Foundry Forge test
+        run: forge test -vv
       - name: Hardhat coverage
         run: npm run coverage:forge
       - name: Upload coverage to Codecov
