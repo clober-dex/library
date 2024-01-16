@@ -91,9 +91,7 @@ library Heap {
             uint256 b1Bitmap = (MAX_UINT_256_MINUS_1 << (b0b1 & 0xff)) & heap[~b0];
             if (b1Bitmap == 0) {
                 uint256 b0Bitmap = (MAX_UINT_256_MINUS_1 << b0) & heap[B0_BITMAP_KEY];
-                if (b0Bitmap == 0) {
-                    revert EmptyError();
-                }
+                if (b0Bitmap == 0) return 0;
                 b0 = b0Bitmap.leastSignificantBit();
                 b1Bitmap = heap[~b0];
             }

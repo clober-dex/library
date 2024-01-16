@@ -61,8 +61,7 @@ contract HeapTest is Test {
             }
             assertTrue(testWrapper.minGreaterThan(elements[i]) == elements[i + 1], "WRONG_MIN");
         }
-        vm.expectRevert(abi.encodeWithSelector(Heap.EmptyError.selector));
-        testWrapper.minGreaterThan(elements[length - 1]);
+        assertTrue(testWrapper.minGreaterThan(elements[length - 1]) == 0, "NO_MORE_MIN_VALUE");
 
         assertFalse(testWrapper.isEmpty(), "HAS_TO_BE_OCCUPIED");
         while (!testWrapper.isEmpty()) {
@@ -70,8 +69,7 @@ contract HeapTest is Test {
             assertTrue(testWrapper.has(_min), "HEAP_HAS_ROOT");
             uint256 min;
             if (length == 1) {
-                vm.expectRevert(abi.encodeWithSelector(Heap.EmptyError.selector));
-                testWrapper.minGreaterThan(_min);
+                assertTrue(testWrapper.minGreaterThan(_min) == 0, "NO_MORE_MIN_VALUE");
             } else {
                 min = testWrapper.minGreaterThan(_min);
             }
