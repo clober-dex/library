@@ -55,10 +55,12 @@ library Heap {
         heap[b0b1] = b2Bitmap | mask;
         if (b2Bitmap == 0) {
             mask = 1 << (b0b1 & 0xff);
-            uint256 b0 = b0b1 >> 8;
-            heap[B0_BITMAP_KEY] = heap[B0_BITMAP_KEY] | (1 << b0);
-            b0 = ~b0;
-            heap[b0] = heap[b0] | mask;
+            uint256 b1BitmapKey = ~(b0b1 >> 8);
+            uint256 b1Bitmap = heap[b1BitmapKey];
+            heap[b1BitmapKey] = b1Bitmap | mask;
+            if (b1Bitmap == 0) {
+                heap[B0_BITMAP_KEY] = heap[B0_BITMAP_KEY] | (1 << ~b1BitmapKey);
+            }
         }
     }
 
