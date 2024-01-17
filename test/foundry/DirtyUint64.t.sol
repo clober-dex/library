@@ -11,6 +11,7 @@ contract DirtyUint64Test is Test {
     using PackedUint256 for uint256;
 
     error DirtyUint64Error(uint256 errorCode);
+
     uint256 private constant _OVERFLOW_ERROR = 0;
     uint256 private constant _UNDERFLOW_ERROR = 1;
 

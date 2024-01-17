@@ -13,9 +13,7 @@ describe('OctopusHeapWrapper Test', () => {
   let minHeapTest: OctopusHeapWrapper
 
   before(async () => {
-    minHeapTest = (await (
-      await ethers.getContractFactory('OctopusHeapWrapper')
-    ).deploy()) as OctopusHeapWrapper
+    minHeapTest = (await (await ethers.getContractFactory('OctopusHeapWrapper')).deploy()) as OctopusHeapWrapper
   })
 
   describe('after init', async () => {
@@ -37,8 +35,7 @@ describe('OctopusHeapWrapper Test', () => {
       expect(await minHeapTest.has(min)).to.be.true
       await minHeapTest.pop()
 
-      const [expectedWord, expectedHeap] =
-        await minHeapTest.getRootWordAndHeap()
+      const [expectedWord, expectedHeap] = await minHeapTest.getRootWordAndHeap()
       expect(word).to.be.eq(expectedWord)
       for (let i = 0; i < 9; i++) {
         expect(heap[i]).to.be.eq(expectedHeap[i])
@@ -51,15 +48,11 @@ describe('OctopusHeapWrapper Test', () => {
     }
 
     it('revert when already init', async () => {
-      await expect(minHeapTest.init()).to.be.revertedWith(
-        encodeCustomError('OctopusHeapError(uint256)', [0]),
-      )
+      await expect(minHeapTest.init()).to.be.revertedWith(encodeCustomError('OctopusHeapError(uint256)', [0]))
     })
 
     it('revert when none', async () => {
-      await expect(minHeapTest.root()).to.be.revertedWith(
-        encodeCustomError('OctopusHeapError(uint256)', [1], true),
-      )
+      await expect(minHeapTest.root()).to.be.revertedWith(encodeCustomError('OctopusHeapError(uint256)', [1], true))
     })
 
     it('push and pop', async () => {
@@ -134,9 +127,7 @@ describe('OctopusHeapWrapper Test', () => {
       await minHeapTest.push(23)
       expect(await minHeapTest.root()).to.be.eq(23)
 
-      await expect(minHeapTest.push(23)).to.be.revertedWith(
-        encodeCustomError('OctopusHeapError(uint256)', [2]),
-      )
+      await expect(minHeapTest.push(23)).to.be.revertedWith(encodeCustomError('OctopusHeapError(uint256)', [2]))
     })
 
     it('pop twice which is duplicated will be reverted', async () => {

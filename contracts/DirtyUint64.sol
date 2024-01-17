@@ -5,6 +5,7 @@ pragma solidity ^0.8.0;
 
 library DirtyUint64 {
     error DirtyUint64Error(uint256 errorCode);
+
     uint256 private constant _OVERFLOW_ERROR = 0;
     uint256 private constant _UNDERFLOW_ERROR = 1;
 
@@ -69,11 +70,7 @@ library DirtyUint64 {
         }
     }
 
-    function sumPackedUnsafe(
-        uint256 packed,
-        uint256 from,
-        uint256 to
-    ) internal pure returns (uint64 ret) {
+    function sumPackedUnsafe(uint256 packed, uint256 from, uint256 to) internal pure returns (uint64 ret) {
         packed = packed >> (from << 6);
         unchecked {
             for (uint256 i = from; i < to; ++i) {

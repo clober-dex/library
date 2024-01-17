@@ -10,7 +10,7 @@ import "../../contracts/mocks/SegmentedSegmentTreeWrapper.sol";
 contract SegmentedSegmentTreeTest is Test {
     using stdJson for string;
 
-    uint32 private constant _MAX_ORDER = 2**15;
+    uint32 private constant _MAX_ORDER = 2 ** 15;
     uint256 private constant _OVERFLOW_ERROR = 1;
 
     SegmentedSegmentTreeWrapper testWrapper;

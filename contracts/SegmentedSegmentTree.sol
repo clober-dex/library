@@ -7,31 +7,31 @@ import "./PackedUint256.sol";
 import "./DirtyUint64.sol";
 
 /**
-🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲
-
-                  Segmented Segment Tree
-                               by Clober
-
-____________/\\\_______________/\\\\\____________/\\\____
- __________/\\\\\___________/\\\\////___________/\\\\\____
-  ________/\\\/\\\________/\\\///______________/\\\/\\\____
-   ______/\\\/\/\\\______/\\\\\\\\\\\_________/\\\/\/\\\____
-    ____/\\\/__\/\\\_____/\\\\///////\\\_____/\\\/__\/\\\____
-     __/\\\\\\\\\\\\\\\\_\/\\\______\//\\\__/\\\\\\\\\\\\\\\\_
-      _\///////////\\\//__\//\\\______/\\\__\///////////\\\//__
-       ___________\/\\\_____\///\\\\\\\\\/_____________\/\\\____
-        ___________\///________\/////////_______________\///_____
-
-          4 Layers of 64-bit nodes, hence 464
-
-🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲
-*/
-
+ * 🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲
+ *
+ *                   Segmented Segment Tree
+ *                                by Clober
+ *
+ * ____________/\\\_______________/\\\\\____________/\\\____
+ *  __________/\\\\\___________/\\\\////___________/\\\\\____
+ *   ________/\\\/\\\________/\\\///______________/\\\/\\\____
+ *    ______/\\\/\/\\\______/\\\\\\\\\\\_________/\\\/\/\\\____
+ *     ____/\\\/__\/\\\_____/\\\\///////\\\_____/\\\/__\/\\\____
+ *      __/\\\\\\\\\\\\\\\\_\/\\\______\//\\\__/\\\\\\\\\\\\\\\\_
+ *       _\///////////\\\//__\//\\\______/\\\__\///////////\\\//__
+ *        ___________\/\\\_____\///\\\\\\\\\/_____________\/\\\____
+ *         ___________\///________\/////////_______________\///_____
+ *
+ *           4 Layers of 64-bit nodes, hence 464
+ *
+ * 🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲🌲
+ */
 library SegmentedSegmentTree {
     using PackedUint256 for uint256;
     using DirtyUint64 for uint64;
 
     error SegmentedSegmentTreeError(uint256 errorCode);
+
     uint256 private constant _INDEX_ERROR = 0;
     uint256 private constant _OVERFLOW_ERROR = 1;
 
@@ -42,7 +42,7 @@ library SegmentedSegmentTree {
     uint256 private constant _P_M = 3; // % 4 = & `3`
     uint256 private constant _P_P = 2; // 2 ** `2` = 4
     uint256 private constant _N_P = 4; // C * P = 2 ** `4`
-    uint256 private constant _MAX_NODES = 2**15; // (R * P) * ((C * P) ** (L - 1)) = `32768`
+    uint256 private constant _MAX_NODES = 2 ** 15; // (R * P) * ((C * P) ** (L - 1)) = `32768`
     uint256 private constant _MAX_NODES_P_MINUS_ONE = 14; // MAX_NODES / R = 2 ** `14`
 
     struct Core {
@@ -64,16 +64,11 @@ library SegmentedSegmentTree {
     }
 
     function total(Core storage core) internal view returns (uint64) {
-        return
-            DirtyUint64.sumPackedUnsafe(core.layers[0][0], 0, _P) +
-            DirtyUint64.sumPackedUnsafe(core.layers[0][1], 0, _P);
+        return DirtyUint64.sumPackedUnsafe(core.layers[0][0], 0, _P)
+            + DirtyUint64.sumPackedUnsafe(core.layers[0][1], 0, _P);
     }
 
-    function query(
-        Core storage core,
-        uint256 left,
-        uint256 right
-    ) internal view returns (uint64 sum) {
+    function query(Core storage core, uint256 left, uint256 right) internal view returns (uint64 sum) {
         if (left == right) {
             return 0;
         }
@@ -93,7 +88,7 @@ library SegmentedSegmentTree {
         unchecked {
             uint256 leftNodeIndex;
             uint256 rightNodeIndex;
-            for (uint256 l = _L - 1; ; --l) {
+            for (uint256 l = _L - 1;; --l) {
                 LayerIndex memory leftIndex = leftIndices[l];
                 LayerIndex memory rightIndex = rightIndices[l];
                 leftNodeIndex += leftIndex.node;
@@ -152,11 +147,7 @@ library SegmentedSegmentTree {
         sum = uint64(ret);
     }
 
-    function update(
-        Core storage core,
-        uint256 index,
-        uint64 value
-    ) internal returns (uint64 replaced) {
+    function update(Core storage core, uint256 index, uint64 value) internal returns (uint64 replaced) {
         if (index >= _MAX_NODES) {
             revert SegmentedSegmentTreeError(_INDEX_ERROR);
         }
@@ -169,10 +160,8 @@ library SegmentedSegmentTree {
                 for (uint256 l = 0; l < _L; ++l) {
                     LayerIndex memory layerIndex = indices[l];
                     uint256 node = core.layers[l][layerIndex.group];
-                    core.layers[l][layerIndex.group] = node.update64(
-                        layerIndex.node,
-                        node.get64(layerIndex.node).subClean(diff)
-                    );
+                    core.layers[l][layerIndex.group] =
+                        node.update64(layerIndex.node, node.get64(layerIndex.node).subClean(diff));
                 }
             } else {
                 uint64 diff = value - replaced;
@@ -180,10 +169,8 @@ library SegmentedSegmentTree {
                 for (uint256 l = 0; l < _L; ++l) {
                     LayerIndex memory layerIndex = indices[l];
                     uint256 node = core.layers[l][layerIndex.group];
-                    core.layers[l][layerIndex.group] = node.update64(
-                        layerIndex.node,
-                        node.get64(layerIndex.node).addClean(diff)
-                    );
+                    core.layers[l][layerIndex.group] =
+                        node.update64(layerIndex.node, node.get64(layerIndex.node).addClean(diff));
                 }
             }
         }

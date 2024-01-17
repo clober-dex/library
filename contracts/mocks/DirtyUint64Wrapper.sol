@@ -37,11 +37,7 @@ contract DirtyUint64Wrapper is CloberDirtyUint64 {
         return current.subDirty(dirtyUint);
     }
 
-    function sumPackedUnsafe(
-        uint256 packed,
-        uint256 from,
-        uint256 to
-    ) external pure returns (uint64) {
+    function sumPackedUnsafe(uint256 packed, uint256 from, uint256 to) external pure returns (uint64) {
         return DirtyUint64.sumPackedUnsafe(packed, from, to);
     }
 }

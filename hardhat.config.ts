@@ -7,7 +7,6 @@ import '@nomiclabs/hardhat-ethers'
 import 'hardhat-gas-reporter'
 import 'hardhat-contract-sizer'
 import 'hardhat-abi-exporter'
-import 'solidity-coverage'
 import './task/docs'
 
 dotenv.config()
@@ -20,9 +19,8 @@ const config: HardhatConfig = {
   solidity: {
     compilers: [
       {
-        version: '0.8.17',
+        version: '0.8.23',
         settings: {
-          evmVersion: 'london',
           optimizer: {
             enabled: true,
             runs: 1000,
@@ -60,8 +58,7 @@ const config: HardhatConfig = {
         },
       },
       accounts: {
-        mnemonic:
-          'loop curious foster tank depart vintage regret net frozen version expire vacant there zebra world',
+        mnemonic: 'loop curious foster tank depart vintage regret net frozen version expire vacant there zebra world',
         initialIndex: 0,
         count: 10,
         path: "m/44'/60'/0'/0",

@@ -7,35 +7,35 @@ import "./PackedUint256.sol";
 import "./SignificantBit.sol";
 
 /**
-🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙
-
-            Octopus Heap
-               by Clober
-
-      ⢀⣀⣠⣀⣀⡀
-    ⣠⣾⣿⣿⣿⣿⣿⣿⣷⣦⡀
-   ⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀   ⣠⣶⣾⣷⣶⣄
-   ⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧  ⢰⣿⠟⠉⠻⣿⣿⣷
-   ⠈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⢷⣄⠘⠿   ⢸⣿⣿⡆
-    ⠈⠿⣿⣿⣿⣿⣿⣀⣸⣿⣷⣤⣴⠟    ⢀⣼⣿⣿⠁
-      ⠈⠙⣛⣿⣿⣿⣿⣿⣿⣿⣿⣦⣀⣀⣀⣴⣾⣿⣿⡟
-   ⢀⣠⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠋⣠⣤⣀
-  ⣴⣿⣿⣿⠿⠟⠛⠛⢛⣿⣿⣿⣿⣿⣿⣧⡈⠉⠁   ⠈⠉⢻⣿⣧
- ⣼⣿⣿⠋    ⢠⣾⣿⣿⠟⠉⠻⣿⣿⣿⣦⣄     ⣸⣿⣿⠃
- ⣿⣿⡇     ⣿⣿⡿⠃   ⠈⠛⢿⣿⣿⣿⣿⣶⣿⣿⣿⡿⠋
- ⢿⣿⣧⡀ ⣶⣄⠘⣿⣿⡇  ⠠⠶⣿⣶⡄⠈⠙⠛⠻⠟⠛⠛⠁
- ⠈⠻⣿⣿⣿⣿⠏ ⢻⣿⣿⣄    ⣸⣿⡇
-           ⠻⣿⣿⣿⣶⣾⣿⣿⠃
-            ⠈⠙⠛⠛⠛⠋
-
-🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙
-*/
-
+ * 🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙
+ *
+ *             Octopus Heap
+ *                by Clober
+ *
+ *       ⢀⣀⣠⣀⣀⡀
+ *     ⣠⣾⣿⣿⣿⣿⣿⣿⣷⣦⡀
+ *    ⢠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀   ⣠⣶⣾⣷⣶⣄
+ *    ⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧  ⢰⣿⠟⠉⠻⣿⣿⣷
+ *    ⠈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⢷⣄⠘⠿   ⢸⣿⣿⡆
+ *     ⠈⠿⣿⣿⣿⣿⣿⣀⣸⣿⣷⣤⣴⠟    ⢀⣼⣿⣿⠁
+ *       ⠈⠙⣛⣿⣿⣿⣿⣿⣿⣿⣿⣦⣀⣀⣀⣴⣾⣿⣿⡟
+ *    ⢀⣠⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠋⣠⣤⣀
+ *   ⣴⣿⣿⣿⠿⠟⠛⠛⢛⣿⣿⣿⣿⣿⣿⣧⡈⠉⠁   ⠈⠉⢻⣿⣧
+ *  ⣼⣿⣿⠋    ⢠⣾⣿⣿⠟⠉⠻⣿⣿⣿⣦⣄     ⣸⣿⣿⠃
+ *  ⣿⣿⡇     ⣿⣿⡿⠃   ⠈⠛⢿⣿⣿⣿⣿⣶⣿⣿⣿⡿⠋
+ *  ⢿⣿⣧⡀ ⣶⣄⠘⣿⣿⡇  ⠠⠶⣿⣶⡄⠈⠙⠛⠻⠟⠛⠛⠁
+ *  ⠈⠻⣿⣿⣿⣿⠏ ⢻⣿⣿⣄    ⣸⣿⡇
+ *            ⠻⣿⣿⣿⣶⣾⣿⣿⠃
+ *             ⠈⠙⠛⠛⠛⠋
+ *
+ * 🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙🐙
+ */
 library OctopusHeap {
     using PackedUint256 for uint256;
     using SignificantBit for uint256;
 
     error OctopusHeapError(uint256 errorCode);
+
     uint256 private constant _ALREADY_INITIALIZED_ERROR = 0;
     uint256 private constant _HEAP_EMPTY_ERROR = 1;
     uint256 private constant _ALREADY_EXISTS_ERROR = 2;
@@ -92,11 +92,7 @@ library OctopusHeap {
         return core.heap[heapIndex >> _HEAD_SIZE_P].get8Unsafe(heapIndex & _HEAD_SIZE);
     }
 
-    function _getWordIndex(
-        uint256 head,
-        uint256 arm,
-        uint16 heapIndex
-    ) private pure returns (uint8) {
+    function _getWordIndex(uint256 head, uint256 arm, uint16 heapIndex) private pure returns (uint8) {
         if (heapIndex <= _HEAD_SIZE) {
             return head.get8Unsafe(heapIndex);
         }
@@ -104,12 +100,11 @@ library OctopusHeap {
     }
 
     // returns new values for the part of the heap affected by updating value at heapIndex to new value
-    function _updateWordIndex(
-        uint256 head,
-        uint256 arm,
-        uint16 heapIndex,
-        uint8 newWordIndex
-    ) private pure returns (uint256, uint256) {
+    function _updateWordIndex(uint256 head, uint256 arm, uint16 heapIndex, uint8 newWordIndex)
+        private
+        pure
+        returns (uint256, uint256)
+    {
         if (heapIndex <= _HEAD_SIZE) {
             return (head.update8Unsafe(heapIndex, newWordIndex), arm);
         } else {
@@ -233,18 +228,10 @@ library OctopusHeap {
         core.bitmap[wordIndex] = word | mask;
     }
 
-    function _pop(
-        Core storage core,
-        uint256 head,
-        uint256[] memory arms
-    )
+    function _pop(Core storage core, uint256 head, uint256[] memory arms)
         private
         view
-        returns (
-            uint256,
-            uint16,
-            uint256
-        )
+        returns (uint256, uint16, uint256)
     {
         uint8 newLength;
         uint256 arm;
@@ -296,11 +283,11 @@ library OctopusHeap {
         return (head, bodyPartIndex, arm);
     }
 
-    function popInMemory(
-        Core storage core,
-        uint256 word,
-        uint256[] memory heap
-    ) internal view returns (uint256, uint256[] memory) {
+    function popInMemory(Core storage core, uint256 word, uint256[] memory heap)
+        internal
+        view
+        returns (uint256, uint256[] memory)
+    {
         uint8 rootBitIndex = word.leastSignificantBit();
         uint256 mask = 1 << rootBitIndex;
         if (word != mask) return (word & (~mask), heap);
