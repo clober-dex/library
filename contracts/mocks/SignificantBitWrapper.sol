@@ -15,5 +15,4 @@ contract SignificantBitWrapper {
     function mostSignificantBit(uint256 x) external pure returns (uint8) {
         return x.mostSignificantBit();
     }
-
 }
