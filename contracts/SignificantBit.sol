@@ -1,5 +1,4 @@
-// SPDX-License-Identifier: -
-// License: https://license.clober.io/LICENSE.pdf
+// SPDX-License-Identifier: GPL-2.0-or-later
 
 pragma solidity ^0.8.0;
 
@@ -21,5 +20,36 @@ library SignificantBit {
             index := shr(248, mul(and(x, add(not(x), 1)), DEBRUIJN_SEQ))
         }
         return uint8(DEBRUIJN_INDEX[index]); // can optimize with CODECOPY opcode
+    }
+
+    function mostSignificantBit(uint256 x) internal pure returns (uint8) {
+        require(x > 0);
+        uint256 msb;
+        assembly {
+            let f := shl(7, gt(x, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF))
+            msb := or(msb, f)
+            x := shr(f, x)
+            f := shl(6, gt(x, 0xFFFFFFFFFFFFFFFF))
+            msb := or(msb, f)
+            x := shr(f, x)
+            f := shl(5, gt(x, 0xFFFFFFFF))
+            msb := or(msb, f)
+            x := shr(f, x)
+            f := shl(4, gt(x, 0xFFFF))
+            msb := or(msb, f)
+            x := shr(f, x)
+            f := shl(3, gt(x, 0xFF))
+            msb := or(msb, f)
+            x := shr(f, x)
+            f := shl(2, gt(x, 0xF))
+            msb := or(msb, f)
+            x := shr(f, x)
+            f := shl(1, gt(x, 0x3))
+            msb := or(msb, f)
+            x := shr(f, x)
+            f := gt(x, 0x1)
+            msb := or(msb, f)
+        }
+        return uint8(msb);
     }
 }
